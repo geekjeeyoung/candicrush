@@ -5,8 +5,9 @@ import {Appearance, AppearanceProvider} from 'react-native-appearance';
 import {MenuProvider} from 'react-native-popup-menu';
 import {enableScreens} from 'react-native-screens';
 import {Provider} from 'react-redux';
-import configureStore from './redux/store/prod';
+import configureStore from './redux/store';
 import AppContainer from './screens/AppContainer';
+import {setI18nConfig} from './Core/localization/Localization';
 
 const store = configureStore();
 const MainNavigator = AppContainer;
@@ -24,8 +25,8 @@ const App = (props) => {
   enableScreens(); // optimization for navigations
 
   useEffect(() => {
-    LogBox.ignoreAllLogs(true);
-
+    LogBox.ignoreAllLogs(true); // ignore all the unsignificant errors
+    setI18nConfig();
     Appearance.addChangeListener(({colorScheme}) => {
       setColorScheme(colorScheme);
     });
