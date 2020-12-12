@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "558815052553",
+    "project_id": "candicrush-photosharingapp",
+    "storage_bucket": "candicrush-photosharingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558815052553:android:9443f414299d99b49d89d8",
+        "android_client_info": {
+          "package_name": "fun.chezcandy.android.CandiCrush"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558815052553-u4h2rm89fp491np8k5adsgredrsj2dhm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fun.chezcandy.android.CandiCrush",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "558815052553-i3tq109n3jmrjp3arl48974ukrhq5t0j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVnrlmONlmNaR8k5U4LEXUVkToOnIe68I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558815052553-i3tq109n3jmrjp3arl48974ukrhq5t0j.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "558815052553-uuoj723domgk1ri683sgl9skgmba52jb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fun.chezcandy.iOS.CandiCrush"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
