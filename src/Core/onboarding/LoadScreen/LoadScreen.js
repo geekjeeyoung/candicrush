@@ -34,7 +34,7 @@ const LoadScreen = (props) => {
 
 LoadScreen.propTypes = {
   navigation: PropTypes.object,
-  user: PropTypes.object,
+  user: PropTypes.object, // Will set it later
 };
 
 LoadScreen.navigationOptions = {

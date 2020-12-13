@@ -10,48 +10,6 @@ const CandiCrushConfig = {
   onboardingConfig: {
     welcomeTitle: Localized('Welcome to CandiCrush'),
     welcomeCaption: Localized('New joy and excitement await you.'),
-    walkthroughScreens: [
-      {
-        icon: require('../assets/images/instagram.png'),
-        title: Localized('Share Photos & Videos'),
-        description: Localized(
-          'Have fun with your friends by posting cool photos and videos.',
-        ),
-      },
-      {
-        icon: require('../assets/images/photo.png'),
-        title: Localized('Stories'),
-        description: Localized('Share stories that disappear after 24h.'),
-      },
-      {
-        icon: require('../assets/images/chat.png'),
-        title: Localized('Messages'),
-        description: Localized(
-          'Communicate with your friends via private messages.',
-        ),
-      },
-      {
-        icon: require('../assets/icons/friends-unfilled.png'),
-        title: Localized('Group Chats'),
-        description: Localized(
-          'Stay in touch with your friends in private group chats.',
-        ),
-      },
-      {
-        icon: require('../assets/images/pin.png'),
-        title: Localized('Checkins'),
-        description: Localized(
-          'Check in when posting to share your location with friends.',
-        ),
-      },
-      {
-        icon: require('../assets/images/notification.png'),
-        title: Localized('Get Notified'),
-        description: Localized(
-          'Receive notifications when you get new messages and likes.',
-        ),
-      },
-    ],
   },
   tabIcons: {
     Feed: {
