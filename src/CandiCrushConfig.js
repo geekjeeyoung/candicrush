@@ -10,6 +10,61 @@ const CandiCrushConfig = {
   onboardingConfig: {
     welcomeTitle: Localized('Welcome to CandiCrush'),
     welcomeCaption: Localized('New joy and excitement await you.'),
+    walkthroughScreens: [
+      {
+        key: 's1',
+        description: Localized(
+          'Have fun with your friends by posting cool photos and videos.',
+        ),
+        title: Localized('Share Photos & Videos'),
+        image: require('../assets/images/instagram.png'),
+        backgroundColor: '#ff9888',
+      },
+      {
+        key: 's2',
+        title: Localized('Stories'),
+        description: Localized('Share stories that disappear after 24h.'),
+        image: require('../assets/images/photo.png'),
+        backgroundColor: '#aa8780',
+      },
+      {
+        key: 's3',
+        title: Localized('Messages'),
+        description: Localized(
+          'Communicate with your friends via private messages.',
+        ),
+        image: require('../assets/images/chat.png'),
+        backgroundColor: '#bab2ae',
+      },
+      {
+        key: 's4',
+        title: Localized('Group Chats'),
+        description: Localized(
+          'Stay in touch with your friends in private group chats.',
+        ),
+        image: require('../assets/icons/friends-unfilled.png'),
+
+        backgroundColor: '#6b6b6b',
+      },
+      {
+        key: 's5',
+        title: Localized('Checkins'),
+        description: Localized(
+          'Check in when posting to share your location with friends.',
+        ),
+        image: require('../assets/images/pin.png'),
+        backgroundColor: '#F19F60',
+      },
+      {
+        key: 's6',
+        title: Localized('Get Notified'),
+        description: Localized(
+          'Receive notifications when you get new messages and likes.',
+        ),
+        image: require('../assets/images/notification.png'),
+        backgroundColor: '#dab6af',
+      },
+    ],
   },
   tabIcons: {
     Feed: {

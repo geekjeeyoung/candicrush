@@ -5,7 +5,7 @@ const SHOULD_SHOW_ONBOARDING_FLOW = 'SHOULD_SHOW_ONBOARDING_FLOW';
 const getShouldShowOnboardingFlow = async () => {
   try {
     const result = await AsyncStorage.getItem(SHOULD_SHOW_ONBOARDING_FLOW);
-    return result !== null ? false : true;
+    return result !== 'false' ? true : false;
   } catch (err) {
     console.log(err);
   }
