@@ -5,7 +5,7 @@ const regexForNames = /^[a-zA-Z]{2,25}$/;
 const regexForPhoneNumber = /\d{9}$/;
 
 const CandiCrushConfig = {
-  isSMSAuthEnabled: true,
+  isSMSAuthEnabled: false,
   appIdentifier: 'rn-candicrush',
   onboardingConfig: {
     welcomeTitle: Localized('Welcome to CandiCrush'),
