@@ -1,16 +1,44 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
+import {View} from 'react-native';
+import authDeviceStorage from '../utils/AuthDeviceStorage';
 
 const LoadScreen = (props) => {
   const {navigation} = props;
-  if (1 === 0) {
-    navigation.navigate('Walkthrough');
-  }
-  return (
-    <View>
-      <Text>Load</Text>
-    </View>
-  );
+  const appStyles =
+    navigation.state.params.appStyles || navigation.getParam('appStyles');
+  const appConfig =
+    navigation.state.params.appConfig || navigation.getParam('appConfig');
+
+  useEffect(() => {
+    setAppState();
+  }, []);
+
+  const setAppState = async () => {
+    const shouldShowOnboardingFlow = await authDeviceStorage.getShouldShowOnboardingFlow();
+    if (shouldShowOnboardingFlow) {
+      navigation.navigate('Walkthrough', {
+        appStyles,
+        appConfig,
+      });
+    } else {
+      navigation.navigate('LoginStack', {
+        appStyles,
+        appConfig,
+      });
+    }
+  };
+
+  return <View />;
+};
+
+LoadScreen.propTypes = {
+  navigation: PropTypes.object,
+  user: PropTypes.object,
+};
+
+LoadScreen.navigationOptions = {
+  header: null,
 };
 
 export default LoadScreen;
