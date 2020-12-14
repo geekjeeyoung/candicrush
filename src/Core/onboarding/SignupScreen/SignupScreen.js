@@ -8,6 +8,7 @@ import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {Localized} from '../../localization/Localization';
 import TermsOfUseView from '../components/TermsOfUseView';
 import TNActivityIndicator from '../../truly-native/TNActivityIndicator';
+import TNProfilePictureSelector from '../../truly-native/TNProfilePictureSelector/TNProfilePictureSelector';
 
 const SignupScreen = (props) => {
   const {navigation} = props;
@@ -17,7 +18,7 @@ const SignupScreen = (props) => {
     navigation.state.params.appStyles || navigation.getParam('appStyles');
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
-
+  const [profilePictureURL, setProfilePictureURL] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -87,6 +88,10 @@ const SignupScreen = (props) => {
           />
         </TouchableOpacity>
         <Text style={styles.title}>{Localized('Create new account')}</Text>
+        <TNProfilePictureSelector
+          profilePictureURL={profilePictureURL}
+          appStyles={appStyles}
+        />
         {renderSignupWithEmail()}
         {appConfig.isSMSAuthEnabled && (
           <>
