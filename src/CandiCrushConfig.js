@@ -89,7 +89,7 @@ const CandiCrushConfig = {
     },
   },
   //   tosLink: 'https://www.instamobile.io/eula-instachatty/',
-  tosLink: '',
+  tosLink: 'https://www.chezcandy.fun/',
   editProfileFields: {
     sections: [
       {

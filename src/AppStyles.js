@@ -216,7 +216,7 @@ const styleSet = {
     tintColor: '#F19F60',
     width: 25,
     height: 25,
-    marginTop: Platform.OS === 'ios' ? 50 : 20,
+    marginTop: 20,
     marginLeft: 10,
     transform: [{scaleX: I18nManager.isRTL ? -1 : 1}],
   },
