@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 import dynamicStyles from './styles';
 
 const TNProfilePictureSelector = (props) => {
@@ -31,7 +31,9 @@ const TNProfilePictureSelector = (props) => {
             resizeMode="cover"
           />
         </TouchableHighlight>
-        <TouchableOpacity></TouchableOpacity>
+        <TouchableOpacity style={styles.addButton}>
+          <Icon name="camera" size={20} color="grey" />
+        </TouchableOpacity>
       </View>
     </>
   );

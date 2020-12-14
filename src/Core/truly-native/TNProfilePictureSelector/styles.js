@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 import {StyleSheet} from 'react-native';
 
 const {height} = Dimensions.get('window');
@@ -39,7 +39,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       opacity: 0.8,
       zIndex: 2,
       marginTop: imageSize * 0.77,
-      marginLeft: -imageSize * 0.29,
+      marginLeft: Platform.OS === 'ios' ? -imageSize * 0.29 : -imageSize * 0.25,
       width: photoIconSize,
       height: photoIconSize,
       borderRadius: photoIconSize,
