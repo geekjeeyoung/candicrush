@@ -93,6 +93,7 @@ const TNProfilePictureSelector = (props) => {
           onPress={(index) => {
             onActionDone(index);
           }}
+          useNativeDriver={true}
         />
       </ScrollView>
     </>
