@@ -125,6 +125,7 @@ const iconSet = {
   thumbsupUnfilled: require('../assets/icons/thumbsup-unfilled.png'),
   heartUnfilled: require('../assets/icons/heart-unfilled.png'),
   like: require('../assets/icons/blue-like.png'),
+  close: require('../assets/icons/close-x-icon.png'),
   love: require('../assets/icons/red-heart.png'),
   angry: require('../assets/icons/anger.png'),
   cameraRotate: require('../assets/icons/camera-rotate.png'),

@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {
   Alert,
+  Image,
   ScrollView,
   TouchableHighlight,
   TouchableOpacity,
@@ -9,10 +10,10 @@ import {
 import ActionSheet from 'react-native-actionsheet';
 import {useColorScheme} from 'react-native-appearance';
 import FastImage from 'react-native-fast-image';
+import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Localized} from '../../localization/Localization';
 import dynamicStyles from './styles';
-import ImagePicker from 'react-native-image-picker';
 
 const TNProfilePictureSelector = (props) => {
   const {appStyles} = props;
@@ -24,7 +25,8 @@ const TNProfilePictureSelector = (props) => {
   const actionSheet = useRef(null);
 
   const handleProfilePictureClick = (url) => {
-    Alert.alert(url);
+    console.log(`Profile Picture url: ${url}`);
+    showActionSheet();
   };
 
   const onImageError = () => {
