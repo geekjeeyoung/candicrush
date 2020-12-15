@@ -13,7 +13,7 @@ const AuthStackNavigator = createStackNavigator(
   {
     Welcome: {
       screen: WelcomeScreen,
-      navigationOptions: {header: null},
+      navigationOptions: {headerShown: false},
     },
     Signup: {
       screen: SignupScreen,
@@ -41,8 +41,10 @@ const AuthStackNavigator = createStackNavigator(
       appStyles: StyleDict,
     },
     headerShown: false,
-    headerBackTitleVisible: false,
-    cardShadowEnabled: false,
+    defaultNavigationOptions: {
+      cardShadowEnabled: false,
+      headerBackTitleVisible: false,
+    },
   },
 );
 

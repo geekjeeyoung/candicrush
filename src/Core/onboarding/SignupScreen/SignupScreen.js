@@ -89,7 +89,7 @@ const SignupScreen = (props) => {
         </TouchableOpacity>
         <Text style={styles.title}>{Localized('Create new account')}</Text>
         <TNProfilePictureSelector
-          profilePictureURL={profilePictureURL}
+          setProfilePictureURL={setProfilePictureURL}
           appStyles={appStyles}
         />
         {renderSignupWithEmail()}

@@ -112,7 +112,6 @@ const dynamicStyles = (appStyles, colorScheme) => {
       zIndex: 2,
     },
     orTextStyle: {
-      color: 'black',
       marginTop: 20,
       marginBottom: 10,
       alignSelf: 'center',

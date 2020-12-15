@@ -38,7 +38,7 @@ LoadScreen.propTypes = {
 };
 
 LoadScreen.navigationOptions = {
-  header: null,
+  headerShown: false,
 };
 
 export default LoadScreen;

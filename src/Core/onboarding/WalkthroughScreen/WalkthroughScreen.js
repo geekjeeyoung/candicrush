@@ -70,7 +70,7 @@ WalkthroughScreen.propTypes = {
 };
 
 WalkthroughScreen.navigationOptions = {
-  header: null,
+  headerShown: false,
 };
 
 export default WalkthroughScreen;
