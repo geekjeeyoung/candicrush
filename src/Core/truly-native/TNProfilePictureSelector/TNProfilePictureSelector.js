@@ -12,6 +12,7 @@ import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Localized} from '../../localization/Localization';
 import dynamicStyles from './styles';
+import ImagePicker from 'react-native-image-picker';
 
 const TNProfilePictureSelector = (props) => {
   const {appStyles} = props;
@@ -39,7 +40,30 @@ const TNProfilePictureSelector = (props) => {
   };
 
   const onPressAddPhotoBtn = () => {
-    Alert.alert('on press add btn');
+    const options = {
+      title: Localized('Select photo'),
+      cancelButtonTitle: Localized('Cancel'),
+      takePhotoButtonTitle: Localized('Take Photo'),
+      chooseFromLibraryButtonTitle: Localized('Choose from Library'),
+      maxWidth: 2000,
+      maxHeight: 2000,
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        setProfilePictureURL(response.uri);
+        props.setProfilePictureURL(response.uri);
+      }
+    });
   };
 
   const onActionDone = (index) => {
