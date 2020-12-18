@@ -127,7 +127,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
     },
     tos: {
       marginTop: 40,
-      marginBottom: Platform.OS === 'ios' ? 40 : 0,
+      marginBottom: 40,
       alignItems: 'center',
       justifyContent: 'center',
       height: 30,

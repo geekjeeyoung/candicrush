@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Alert} from 'react-native';
 import Button from 'react-native-button';
 import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
@@ -9,6 +9,10 @@ import {Localized} from '../../localization/Localization';
 import TermsOfUseView from '../components/TermsOfUseView';
 import TNActivityIndicator from '../../truly-native/TNActivityIndicator';
 import TNProfilePictureSelector from '../../truly-native/TNProfilePictureSelector/TNProfilePictureSelector';
+import {localizedErrorMessage} from '../utils/ErrorCode';
+import {connect} from 'react-redux';
+import {setUserData} from '../redux/auth';
+import authManager from '../utils/authManager';
 
 const SignupScreen = (props) => {
   const {navigation} = props;
@@ -27,6 +31,36 @@ const SignupScreen = (props) => {
 
   const onRegister = () => {
     setLoading(true);
+
+    const userDetails = {
+      firstName,
+      lastName,
+      email: email && email.trim(),
+      password: password && password.trim(),
+      profilePictureURL,
+      appIdentifier: appConfig.appIdentifier,
+    };
+    authManager
+      .createAccountWithEmailAndPassword(userDetails, appConfig)
+      .then((response) => {
+        const user = response.user;
+        if (user) {
+          props.setUserData({
+            user: response.user,
+          });
+          props.navigation.navigate('Welcome', {user: user});
+        } else {
+          Alert.alert(
+            '',
+            localizedErrorMessage(response.error),
+            [{text: Localized('OK')}],
+            {
+              cancelable: false,
+            },
+          );
+        }
+        setLoading(false);
+      });
   };
 
   const renderSignupWithEmail = () => {
@@ -116,4 +150,4 @@ const SignupScreen = (props) => {
   );
 };
 
-export default SignupScreen;
+export default connect(null, {setUserData})(SignupScreen);

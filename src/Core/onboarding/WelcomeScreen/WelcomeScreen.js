@@ -19,6 +19,7 @@ const WelcomeScreen = (props) => {
       <View style={styles.logo}>
         <Image source={appStyles.iconSet.logo} style={styles.logoImage} />
       </View>
+
       <Text style={styles.title}>
         {appConfig.onboardingConfig.welcomeTitle}
       </Text>

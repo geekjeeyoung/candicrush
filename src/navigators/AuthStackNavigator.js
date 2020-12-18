@@ -17,9 +17,7 @@ const AuthStackNavigator = createStackNavigator(
     },
     Signup: {
       screen: SignupScreen,
-      navigationOptions: () => ({
-        headerStyle: styles.headerStyle,
-      }),
+      navigationOptions: {headerShown: false},
     },
     Login: {
       screen: LoginScreen,
