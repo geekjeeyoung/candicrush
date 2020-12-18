@@ -41,7 +41,7 @@ const SignupScreen = (props) => {
       appIdentifier: appConfig.appIdentifier,
     };
     authManager
-      .createAccountWithEmailAndPassword(userDetails, appConfig)
+      .createAccountWithEmailAndPassword(userDetails)
       .then((response) => {
         const user = response.user;
         if (user) {
