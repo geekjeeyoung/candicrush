@@ -28,7 +28,7 @@ export const register = (userDetails) => {
           id: uid,
           userID: uid, // legacy reasons
           email,
-          // password,
+          password,
           firstName,
           lastName,
           phone: phone || '',
