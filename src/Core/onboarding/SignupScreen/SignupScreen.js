@@ -48,7 +48,7 @@ const SignupScreen = (props) => {
           props.setUserData({
             user: response.user,
           });
-          props.navigation.navigate('Welcome', {user: user});
+          props.navigation.navigate('MainStack', {user: user});
         } else {
           Alert.alert(
             '',

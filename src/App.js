@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+
 import {decode, encode} from 'base-64';
 import React, {useEffect, useState} from 'react';
 import {AppRegistry, LogBox} from 'react-native';
