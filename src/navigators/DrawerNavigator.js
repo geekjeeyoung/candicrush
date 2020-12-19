@@ -5,7 +5,11 @@ const DrawerNavigator = createDrawerNavigator(
   {
     Feed: {screen: InnerFeedNavigator},
   },
-  {drawerPosition: 'left', initialRouteName: 'Feed', drawerWidth: 300},
+  {
+    drawerPosition: 'left',
+    initialRouteName: 'Feed',
+    drawerWidth: 300,
+  },
 );
 
 export default DrawerNavigator;

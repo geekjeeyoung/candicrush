@@ -22,7 +22,7 @@ const LoadScreen = (props) => {
         appConfig,
       });
     } else {
-      navigation.navigate('LoginStack', {
+      navigation.navigate('MainStack', {
         appStyles,
         appConfig,
       });
