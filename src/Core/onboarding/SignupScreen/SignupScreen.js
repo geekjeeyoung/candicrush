@@ -3,7 +3,7 @@ import {View, Text, Image, Alert} from 'react-native';
 import Button from 'react-native-button';
 import {useColorScheme} from 'react-native-appearance';
 import dynamicStyles from './styles';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scrollview';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {Localized} from '../../localization/Localization';
 import TermsOfUseView from '../components/TermsOfUseView';

@@ -21,9 +21,7 @@ const AuthStackNavigator = createStackNavigator(
     },
     Login: {
       screen: LoginScreen,
-      navigationOptions: () => ({
-        headerStyle: styles.headerStyle,
-      }),
+      navigationOptions: {headerShown: false},
     },
     Sms: {
       screen: SmsAuthenticationScreen,

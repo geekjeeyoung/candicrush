@@ -4,6 +4,20 @@ import {firebaseStorage} from '../../firebase/storage';
 const defaultProfilePhotoURL =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
+const loginWithEmailAndPassword = (email, password) => {
+  return new Promise(function (resolve, _reject) {
+    firebaseAuth.loginWithEmailAndPassword(email, password).then((response) => {
+      if (!response.error) {
+        handleSuccessfulLogin({...response.user}, false).then((res) => {
+          resolve({user: res.user});
+        });
+      } else {
+        resolve({error: response.error});
+      }
+    });
+  });
+};
+
 const createAccountWithEmailAndPassword = (userDetails) => {
   const accountCreationTask = (userData) => {
     return new Promise((resolve, _reject) => {
@@ -90,6 +104,7 @@ const handleSuccessfulLogin = (user, accountJustCreated) => {
 
 const authManager = {
   createAccountWithEmailAndPassword,
+  loginWithEmailAndPassword,
 };
 
 export default authManager;
