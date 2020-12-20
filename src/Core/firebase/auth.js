@@ -5,6 +5,27 @@ import {Alert} from 'react-native';
 
 const usersRef = firestore().collection('users');
 
+export const retrievePersistedAuthUser = () => {
+  return new Promise((resolve) => {
+    return auth().onAuthStateChanged((user) => {
+      if (user) {
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then((document) => {
+            const userData = document.data();
+            resolve({...userData, id: user.uid, userID: user.uid});
+          })
+          .catch((error) => {
+            resolve(null);
+          });
+      } else {
+        resolve(null);
+      }
+    });
+  });
+};
+
 export const register = (userDetails) => {
   const {
     email,

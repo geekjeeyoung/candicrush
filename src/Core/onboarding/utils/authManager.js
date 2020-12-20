@@ -102,9 +102,26 @@ const handleSuccessfulLogin = (user, accountJustCreated) => {
   });
 };
 
+const retrievePersistedAuthUser = () => {
+  return new Promise((resolve) => {
+    firebaseAuth.retrievePersistedAuthUser().then((user) => {
+      if (user) {
+        handleSuccessfulLogin(user, false).then((res) => {
+          resolve({
+            user: res.user,
+          });
+        });
+      } else {
+        resolve(null);
+      }
+    });
+  });
+};
+
 const authManager = {
   createAccountWithEmailAndPassword,
   loginWithEmailAndPassword,
+  retrievePersistedAuthUser,
 };
 
 export default authManager;
