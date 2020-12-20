@@ -17,14 +17,14 @@ const CandiCrushConfig = {
           'Have fun with your friends by posting cool photos and videos.',
         ),
         title: Localized('Share Photos & Videos'),
-        image: require('../assets/images/instagram.png'),
+        image: require('../assets/images/camera.png'),
         backgroundColor: '#BC475A',
       },
       {
         key: 's2',
         title: Localized('Stories'),
         description: Localized('Share stories that disappear after 24h.'),
-        image: require('../assets/images/photo.png'),
+        image: require('../assets/images/book.png'),
         backgroundColor: '#6b6b6b',
       },
       {
@@ -33,7 +33,7 @@ const CandiCrushConfig = {
         description: Localized(
           'Communicate with your friends via private messages.',
         ),
-        image: require('../assets/images/chat.png'),
+        image: require('../assets/images/typing.png'),
         backgroundColor: '#82D7BB',
       },
       {
@@ -42,7 +42,7 @@ const CandiCrushConfig = {
         description: Localized(
           'Stay in touch with your friends in private group chats.',
         ),
-        image: require('../assets/icons/friends-unfilled.png'),
+        image: require('../assets/images/russiandolls.png'),
         backgroundColor: '#596A8D',
       },
       {
@@ -51,7 +51,7 @@ const CandiCrushConfig = {
         description: Localized(
           'Check in when posting to share your location with friends.',
         ),
-        image: require('../assets/images/pin.png'),
+        image: require('../assets/images/compass.png'),
         backgroundColor: '#467961',
       },
       {
@@ -60,7 +60,7 @@ const CandiCrushConfig = {
         description: Localized(
           'Receive notifications when you get new messages and likes.',
         ),
-        image: require('../assets/images/notification.png'),
+        image: require('../assets/images/bell.png'),
         backgroundColor: '#B32E44',
       },
     ],

@@ -54,7 +54,7 @@ const WelcomeScreen = (props) => {
   return (
     <View style={styles.container}>
       <View style={styles.logo}>
-        <Image source={appStyles.iconSet.logo} style={styles.logoImage} />
+        <Image source={appStyles.iconSet.candicrush} style={styles.logoImage} />
       </View>
 
       <Text style={styles.title}>

@@ -10,8 +10,8 @@ const dynamicStyles = (appStyles, colorScheme) => {
       backgroundColor: appStyles.colorSet[colorScheme].mainThemeBackgroundColor,
     },
     logo: {
-      width: Platform.OS === 'ios' ? 120 : 150,
-      height: Platform.OS === 'ios' ? 120 : 150,
+      width: Platform.OS === 'ios' ? 200 : 300,
+      height: Platform.OS === 'ios' ? 200 : 300,
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 20,
@@ -21,7 +21,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       width: '100%',
       height: '100%',
       resizeMode: 'contain',
-      tintColor: appStyles.colorSet[colorScheme].mainThemeForegroundColor,
+      // tintColor: appStyles.colorSet[colorScheme].mainThemeForegroundColor,
     },
     title: {
       fontSize: 30,

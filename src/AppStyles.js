@@ -97,6 +97,7 @@ const imageSet = {
 };
 
 const iconSet = {
+  candicrush: require('../assets/images/candicrush.png'),
   logo: require('../assets/images/app-logo.png'),
   userAvatar: require('./CoreAssets/default-avatar.jpg'),
   backArrow: require('./CoreAssets/arrow-back-icon.png'),

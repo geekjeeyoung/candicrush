@@ -17,10 +17,10 @@ const dynamicStyles = (appStyles, colorScheme) => {
       paddingRight: 10,
     },
     image: {
-      width: Platform.OS === 'ios' ? 120 : 180,
-      height: Platform.OS === 'ios' ? 120 : 180,
+      width: Platform.OS === 'ios' ? 150 : 200,
+      height: Platform.OS === 'ios' ? 150 : 200,
       marginBottom: 60,
-      tintColor: 'white',
+      // tintColor: 'white',
     },
     container: {
       flex: 1,
