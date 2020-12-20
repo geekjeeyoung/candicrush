@@ -18,14 +18,14 @@ const CandiCrushConfig = {
         ),
         title: Localized('Share Photos & Videos'),
         image: require('../assets/images/instagram.png'),
-        backgroundColor: '#ff9888',
+        backgroundColor: '#BC475A',
       },
       {
         key: 's2',
         title: Localized('Stories'),
         description: Localized('Share stories that disappear after 24h.'),
         image: require('../assets/images/photo.png'),
-        backgroundColor: '#aa8780',
+        backgroundColor: '#6b6b6b',
       },
       {
         key: 's3',
@@ -34,7 +34,7 @@ const CandiCrushConfig = {
           'Communicate with your friends via private messages.',
         ),
         image: require('../assets/images/chat.png'),
-        backgroundColor: '#bab2ae',
+        backgroundColor: '#82D7BB',
       },
       {
         key: 's4',
@@ -43,8 +43,7 @@ const CandiCrushConfig = {
           'Stay in touch with your friends in private group chats.',
         ),
         image: require('../assets/icons/friends-unfilled.png'),
-
-        backgroundColor: '#6b6b6b',
+        backgroundColor: '#596A8D',
       },
       {
         key: 's5',
@@ -53,7 +52,7 @@ const CandiCrushConfig = {
           'Check in when posting to share your location with friends.',
         ),
         image: require('../assets/images/pin.png'),
-        backgroundColor: '#F19F60',
+        backgroundColor: '#467961',
       },
       {
         key: 's6',
@@ -62,7 +61,7 @@ const CandiCrushConfig = {
           'Receive notifications when you get new messages and likes.',
         ),
         image: require('../assets/images/notification.png'),
-        backgroundColor: '#dab6af',
+        backgroundColor: '#B32E44',
       },
     ],
   },

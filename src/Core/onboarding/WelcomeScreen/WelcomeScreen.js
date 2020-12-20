@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import TNActivityIndicator from '../../truly-native/TNActivityIndicator';
 import authManager from '../utils/authManager';
 import {setUserData} from '../redux/auth';
+import authDeviceStorage from '../utils/AuthDeviceStorage';
 
 const WelcomeScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,15 @@ const WelcomeScreen = (props) => {
 
   useEffect(() => {
     tryToLoginFirst();
+    // showOnboardingFlow();
   }, []);
+
+  const showOnboardingFlow = () => {
+    authDeviceStorage.setShouldShowOnboardingFlow(
+      'SHOULD_SHOW_ONBOARDING_FLOW',
+      true,
+    );
+  };
 
   const tryToLoginFirst = () => {
     authManager

@@ -102,6 +102,7 @@ const SignupScreen = (props) => {
           autoCapitalize="none"
         />
         <Button
+          disabled={!(firstName && lastName && email && password)}
           containerStyle={styles.signupContainer}
           style={styles.signupText}
           onPress={() => onRegister()}>

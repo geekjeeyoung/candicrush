@@ -94,6 +94,7 @@ const LoginScreen = (props) => {
           autoCapitalize="none"
         />
         <Button
+          disabled={!(email && password)}
           containerStyle={styles.loginContainer}
           style={styles.loginText}
           onPress={() => onPressLogin()}>
