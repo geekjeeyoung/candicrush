@@ -4,6 +4,7 @@ import Button from 'react-native-button';
 import {useColorScheme} from 'react-native-appearance';
 import {Localized} from '../../localization/Localization';
 import dynamicStyles from './styles';
+import {connect} from 'react-redux';
 
 const WelcomeScreen = (props) => {
   const {navigation} = props;
@@ -22,6 +23,9 @@ const WelcomeScreen = (props) => {
 
       <Text style={styles.title}>
         {appConfig.onboardingConfig.welcomeTitle}
+      </Text>
+      <Text style={styles.caption}>
+        {appConfig.onboardingConfig.welcomeCaption}
       </Text>
       <Button
         containerStyle={styles.loginContainer}
@@ -55,4 +59,4 @@ const WelcomeScreen = (props) => {
   );
 };
 
-export default WelcomeScreen;
+export default connect()(WelcomeScreen);

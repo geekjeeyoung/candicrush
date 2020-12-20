@@ -32,11 +32,11 @@ const dynamicStyles = (appStyles, colorScheme) => {
       textAlign: 'center',
     },
     caption: {
-      fontSize: 16,
+      fontSize: Platform.OS === 'ios' ? 13 : 16,
       paddingHorizontal: 50,
       marginBottom: 20,
       textAlign: 'center',
-      color: appStyles.colorSet[colorScheme].mainTextColor,
+      color: appStyles.colorSet[colorScheme].mainSubtextColor,
     },
     loginContainer: {
       width: appStyles.sizeSet.buttonWidth,
