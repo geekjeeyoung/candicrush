@@ -1,11 +1,22 @@
 import {createStackNavigator} from 'react-navigation-stack';
 import {
   ConversationsScreen,
+  DetailPostScreen,
   ExploreScreen,
   FeedScreen,
   ProfileScreen,
 } from '../screens';
-import {CHFriendsScreen} from '../Core/socialgraph/friendships';
+import {
+  CHAllFriendsScreen,
+  CHFriendsScreen,
+} from '../Core/socialgraph/friendships';
+import {CHNotificationScreen} from '../Core/notifications';
+import {
+  CHContactUsScreen,
+  CHEditProfileScreen,
+  CHProfileSettingsScreen,
+  CHUserSettingsScreen,
+} from '../Core/profile';
 
 const InnerFeedNavigator = createStackNavigator(
   {
@@ -51,6 +62,14 @@ const InnerFriendsNavigator = createStackNavigator(
 const InnerProfileNavigator = createStackNavigator(
   {
     Profile: {screen: ProfileScreen},
+    ProfileNotification: {screen: CHNotificationScreen},
+    ProfileProfileSettings: {screen: CHProfileSettingsScreen},
+    ProfileEditProfile: {screen: CHEditProfileScreen},
+    ProfileAppSettings: {screen: CHUserSettingsScreen},
+    ProfileContactUs: {screen: CHContactUsScreen},
+    ProfileAllFriends: {screen: CHAllFriendsScreen},
+    ProfilePostDetails: {screen: DetailPostScreen},
+    ProfileDetailPostProfile: {screen: ProfileScreen},
   },
   {
     initialRouteName: 'Profile',

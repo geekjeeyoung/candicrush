@@ -3,3 +3,4 @@ export {default as ExploreScreen} from './ExploreScreen/ExploreScreen';
 export {default as ConversationsScreen} from './ConversationsScreen/ConversationsScreen';
 export {default as ProfileScreen} from './ProfileScreen/ProfileScreen';
 export {default as CreatePostScreen} from './CreatePostScreen/CreatePostScreen';
+export {default as DetailPostScreen} from './DetailPostScreen/DetailPostScreen';
