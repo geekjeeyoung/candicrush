@@ -3,13 +3,21 @@ import StyleDict from '../AppStyles';
 import CandiCrushConfig from '../CandiCrushConfig';
 import {tabBarBuilder} from '../Core/ui';
 
-import {InnerFeedNavigator} from './InnerStackNavigators';
+import {
+  InnerChatNavigator,
+  InnerDiscoverNavigator,
+  InnerFeedNavigator,
+  InnerFriendsNavigator,
+  InnerProfileNavigator,
+} from './InnerStackNavigators';
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
-    Feed: {
-      screen: InnerFeedNavigator,
-    },
+    Feed: {screen: InnerFeedNavigator},
+    Discover: {screen: InnerDiscoverNavigator},
+    Chat: {screen: InnerChatNavigator},
+    Friends: {screen: InnerFriendsNavigator},
+    Profile: {screen: InnerProfileNavigator},
   },
   {
     initialRouteName: 'Feed',

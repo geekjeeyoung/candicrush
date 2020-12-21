@@ -118,10 +118,20 @@ const retrievePersistedAuthUser = () => {
   });
 };
 
+const logout = (user) => {
+  const userData = {
+    ...user,
+    isOnline: false,
+  };
+  firebaseAuth.updateUser(user.id, userData);
+  firebaseAuth.logout();
+};
+
 const authManager = {
   createAccountWithEmailAndPassword,
   loginWithEmailAndPassword,
   retrievePersistedAuthUser,
+  logout,
 };
 
 export default authManager;

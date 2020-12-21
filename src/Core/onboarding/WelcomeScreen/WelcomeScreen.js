@@ -33,20 +33,22 @@ const WelcomeScreen = (props) => {
   };
 
   const tryToLoginFirst = () => {
+    setIsLoading(true);
     authManager
       .retrievePersistedAuthUser()
       .then((response) => {
         if (response.user) {
-          setIsLoading(true);
           const user = response.user;
           props.setUserData({
             user: user,
           });
           navigation.navigate('MainStack', {user: user});
         }
+        setIsLoading(false);
         return;
       })
       .catch(() => {
+        setIsLoading(false);
         return;
       });
   };

@@ -14,7 +14,7 @@ export const retrievePersistedAuthUser = () => {
           .get()
           .then((document) => {
             const userData = document.data();
-            resolve({...userData, id: user.uid, userID: user.uid});
+            resolve({...userData, id: user.uid});
           })
           .catch((error) => {
             resolve(null);
@@ -47,7 +47,6 @@ export const register = (userDetails) => {
 
         const data = {
           id: uid,
-          userID: uid, // legacy reasons
           email,
           password,
           firstName,
@@ -142,4 +141,18 @@ export const loginWithEmailAndPassword = (email, password) => {
         resolve({error: errorCode});
       });
   });
+};
+
+export const updateUser = async (userId, newUserData) => {
+  const dataWithOnlineStatus = {
+    ...newUserData,
+    lastOnlineTimestamp: firestore.FieldValue.serverTimestamp(),
+  };
+  return await usersRef
+    .doc(userId)
+    .set({...dataWithOnlineStatus}, {merge: true});
+};
+
+export const logout = () => {
+  auth().signOut();
 };

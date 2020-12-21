@@ -7,6 +7,7 @@ const MainStackNavigator = createStackNavigator(
   {
     NavStack: {
       screen: Platform.OS === 'ios' ? BottomTabNavigator : DrawerNavigator,
+      // screen: BottomTabNavigator,
     },
   },
   {

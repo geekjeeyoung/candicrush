@@ -61,7 +61,7 @@ const CandiCrushConfig = {
           'Receive notifications when you get new messages and likes.',
         ),
         image: require('../assets/images/bell.png'),
-        backgroundColor: '#B32E44',
+        backgroundColor: '#F2A71A',
       },
     ],
   },
