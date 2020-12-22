@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, Text, View} from 'react-native';
 import StyleDict from '../../AppStyles';
 import {Profile} from '../../components';
+import {Localized} from '../../Core/localization/Localization';
 import {TNTouchableIcon} from '../../Core/truly-native';
 
 class ProfileScreen extends Component {
@@ -11,15 +12,15 @@ class ProfileScreen extends Component {
     return {
       headerTitle:
         Platform.OS === 'ios' ? (
-          'Profile'
+          Localized('Profile')
         ) : (
           <View style={{alignItems: 'center', flex: 1}}>
             <Text
               style={{
                 fontSize: 18,
-                color: currentTheme.fontColor,
+                // color: currentTheme.fontColor,
               }}>
-              Profile
+              {Localized('Profile')}
             </Text>
           </View>
         ),
@@ -46,9 +47,11 @@ class ProfileScreen extends Component {
       headerTintColor: currentTheme.fontColor,
     };
   };
+
   constructor(props) {
     super(props);
     this.otherUser = this.props.navigation.getParam('user');
+
     this.state = {
       uploadProgress: 50,
       profilePosts: null,
