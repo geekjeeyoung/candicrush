@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform} from 'react-native';
+import {Platform, Text, View} from 'react-native';
 import StyleDict from '../../AppStyles';
 import {Profile} from '../../components';
 import {TNTouchableIcon} from '../../Core/truly-native';
@@ -9,7 +9,20 @@ class ProfileScreen extends Component {
     let currentTheme = StyleDict.navThemeConstants[screenProps.theme];
     const {params = {}} = navigation.state;
     return {
-      headerTitle: 'Profile',
+      headerTitle:
+        Platform.OS === 'ios' ? (
+          'Profile'
+        ) : (
+          <View style={{alignItems: 'center', flex: 1}}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: currentTheme.fontColor,
+              }}>
+              Profile
+            </Text>
+          </View>
+        ),
       headerRight: !params.otherUser && (
         <TNTouchableIcon
           imageStyle={{tintColor: currentTheme.activeTintColor}}
