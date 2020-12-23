@@ -4,6 +4,8 @@ import StyleDict from '../../AppStyles';
 import {Profile} from '../../components';
 import {Localized} from '../../Core/localization/Localization';
 import {TNTouchableIcon} from '../../Core/truly-native';
+const defaultAvatar =
+  'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
 class ProfileScreen extends Component {
   static navigationOptions = ({screenProps, navigation}) => {

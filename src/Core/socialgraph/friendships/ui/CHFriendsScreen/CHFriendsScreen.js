@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import PropTypes from 'prop-types';
+import {Platform, Text, View} from 'react-native';
 import {connect} from 'react-redux';
-import {Localized} from '../../../../localization/Localization';
-import {Platform} from 'react-native';
-import StyleDict from '../../../../../AppStyles';
-import {TNTouchableIcon} from '../../../../truly-native';
 import {CHFriendsListComponent} from '../..';
+import StyleDict from '../../../../../AppStyles';
+import {Localized} from '../../../../localization/Localization';
+import {TNTouchableIcon} from '../../../../truly-native';
 
 class CHFriendsScreen extends Component {
   static navigationOptions = ({screenProps, navigation}) => {
