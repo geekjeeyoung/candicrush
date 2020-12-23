@@ -16,7 +16,7 @@ const dynamicStyles = (appStyles, colorScheme) => {
       height: 15,
       width: 15,
       tintColor: appStyles.colorSet[colorScheme].grey,
-      marginRight: 1,
+      marginRight: 4,
     },
     searchInput: {
       padding: 4,

@@ -119,7 +119,7 @@ const LoginScreen = (props) => {
         <Button
           containerStyle={[
             styles.facebookContainer,
-            {backgroundColor: '#44C778'},
+            {backgroundColor: '#44C778', marginBottom: 30},
           ]}
           style={styles.facebookText}
           onPress={() => onNaverButtonPress()}>
