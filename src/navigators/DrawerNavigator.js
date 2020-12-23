@@ -36,7 +36,7 @@ const DrawerNavigator = createDrawerNavigator(
       const routeIndex = navigation.state.index;
       return {
         title: navigation.state.routes[routeIndex].key,
-        header: null,
+        headerShown: false,
       };
     },
   },

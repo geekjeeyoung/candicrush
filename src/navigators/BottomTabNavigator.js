@@ -26,7 +26,7 @@ const BottomTabNavigator = createBottomTabNavigator(
       const {routeName} = navigation.state.routes[navigation.state.index];
       return {
         headerTitle: routeName,
-        header: null,
+        headerShown: false,
       };
     },
   },
