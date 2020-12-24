@@ -32,7 +32,7 @@ const CandiCrushConfig = {
         title: Localized('Messages'),
         description1: Localized('Communicate with your friends '),
         description2: Localized('via private messages'),
-        image: require('../assets/images/typing.png'),
+        image: require('../assets/images/onboarding-typewriter.png'),
         backgroundColor: '#28666e',
       },
       {
