@@ -36,7 +36,8 @@ const WalkthroughScreen = (props) => {
         ]}>
         <Text style={styles.title}>{item.title}</Text>
         <Image style={styles.image} source={item.image} />
-        <Text style={styles.text}>{item.description}</Text>
+        <Text style={styles.text}>{item.description1}</Text>
+        <Text style={styles.text}>{item.description2}</Text>
       </View>
     );
   };

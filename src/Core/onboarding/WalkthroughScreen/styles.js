@@ -10,15 +10,15 @@ const dynamicStyles = (appStyles, colorScheme) => {
       color: 'white',
     },
     text: {
-      fontSize: 18,
+      fontSize: Platform.OS === 'ios' ? 16 : 18,
       textAlign: 'center',
       color: 'white',
       paddingLeft: 10,
       paddingRight: 10,
     },
     image: {
-      width: Platform.OS === 'ios' ? 150 : 200,
-      height: Platform.OS === 'ios' ? 150 : 200,
+      width: Platform.OS === 'ios' ? 280 : 300,
+      height: Platform.OS === 'ios' ? 230 : 250,
       marginBottom: 60,
       // tintColor: 'white',
     },
