@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import {Platform, Text, View} from 'react-native';
+import {BackHandler, Platform, Text, View} from 'react-native';
 import {connect} from 'react-redux';
 import StyleDict from '../../AppStyles';
 import {Profile} from '../../components';
 import {Localized} from '../../Core/localization/Localization';
 import {TNTouchableIcon} from '../../Core/truly-native';
 import {setUserData} from '../../Core/onboarding/redux/auth';
+import {FriendshipConstants} from '../../Core/socialgraph/friendships';
+
 const defaultAvatar =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
 
@@ -54,16 +56,50 @@ class ProfileScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.otherUser = this.props.navigation.getParam('user');
-    // const shouldAddFriend = this.otherUser? this.props.friendships.find()
+    this.otherUser = props.navigation.getParam('user');
+    // if it is not one's own profile screen and if the user didn't send friend request yet
+    const shouldAddFriend = this.otherUser
+      ? !props.friendships.find(
+          (friendship) =>
+            friendship.user.id == this.otherUser.id &&
+            friendship.type != FriendshipConstants.FriendshipType.inbound,
+        )
+      : false;
 
     this.state = {
-      uploadProgress: 50,
+      uploadProgress: 80,
       profilePosts: null,
+      isMediaViewerOpen: false,
+      selectedFeedItems: [],
+      loading: true,
+      shouldAddFriend: shouldAddFriend,
+      isFetching: false,
+      selectedMediaIndex: null,
     };
 
+    this.isFetching = false;
+    this.didFocusSubscription = props.navigation.addListener(
+      'didFocus',
+      (payload) => {
+        this.willBlur = false;
+        BackHandler.addEventListener(
+          'hardwareBackPress',
+          this.onBackButtonPressAndroid,
+        );
+      },
+    );
+
+    this.willBlur = false;
+    // this.lastVisibleFeed = null;
+    // this.feedBatchLimit = 15;
+    this.fetchCallCount = 0;
+    this.stackKeyTitle = 'Profile';
+    const keyTitle = props.navigation.getParam('stackKeyTitle');
+    if (keyTitle) {
+      this.stackKeyTitle = keyTitle;
+    }
     this.ProfileSettingsTitle = 'ProfileProfileSettings';
-    this.lastScreenTitle = this.props.navigation.getParam('lastScreenTitle');
+    this.lastScreenTitle = props.navigation.getParam('lastScreenTitle');
     if (this.lastScreenTitle) {
       this.ProfileSettingsTitle = this.lastScreenTitle + 'ProfileSettings';
     } else {
@@ -72,12 +108,33 @@ class ProfileScreen extends Component {
   }
 
   componentDidMount() {
+    this.willBlurSubscription = this.props.navigation.addListener(
+      'willBlur',
+      (payload) => {
+        this.willBlur = true;
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          this.onBackButtonPressAndroid,
+        );
+      },
+    );
+
     this.props.navigation.setParams({
       navigateNotifi: this.navigateNotifi,
       openDrawer: this.openDrawer,
       otherUser: this.otherUser,
     });
+
+    // if this screen is other person's profile screen
+    if (this.otherUser && this.otherUser.id != this.props.user.id) {
+      let profileUserID = this.otherUser.id;
+    }
   }
+
+  onBackButtonPressAndroid = () => {
+    this.props.navigation.goBack();
+    return true;
+  };
 
   navigateNotifi = () => {
     this.props.navigation.navigate(this.lastScreenTitle + 'Notification', {
