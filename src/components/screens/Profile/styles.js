@@ -3,13 +3,17 @@ import AppStyles from '../../../AppStyles';
 
 // const imageContainerWidth = 66;
 const imageWidth = Dimensions.get('window').width / 4.0;
+const {height} = Dimensions.get('window');
 
 const dynamicStyles = (colorScheme) => {
   return new StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: AppStyles.colorSet[colorScheme].whiteSmoke,
-      alignItems: 'center',
+      // alignItems: 'center',
+    },
+    emptyViewContainer: {
+      marginTop: height / 6,
     },
     progressBar: {
       backgroundColor: AppStyles.colorSet[colorScheme].mainThemeForegroundColor,

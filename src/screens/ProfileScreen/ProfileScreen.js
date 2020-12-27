@@ -67,7 +67,7 @@ class ProfileScreen extends Component {
       : false;
 
     this.state = {
-      uploadProgress: 80,
+      uploadProgress: 50,
       profilePosts: null,
       isMediaViewerOpen: false,
       selectedFeedItems: [],
@@ -147,11 +147,19 @@ class ProfileScreen extends Component {
     this.props.navigation.openDrawer();
   };
 
+  onEmptyStatePress = () => {
+    this.props.navigation.navigate('CreatePost');
+  };
+
   render() {
     return (
       <Profile
         uploadProgress={this.state.uploadProgress}
         recentUserFeeds={this.state.profilePosts}
+        loading={this.state.loading}
+        user={this.otherUser ? this.otherUser : this.props.user}
+        isOtherUser={this.otherUser}
+        onEmptyStatePress={this.onEmptyStatePress}
       />
     );
   }

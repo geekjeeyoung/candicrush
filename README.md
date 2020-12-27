@@ -19,3 +19,5 @@
 <br/>
 
 # **Profile Screen 만들기**
+
+- CREATE POST
