@@ -22,7 +22,7 @@ export const addPost = async (post, followerIDs, author) => {
     firebaseUser.updateUserData(author.id, {postsCount: postsCount});
 
     const userIDFeedsToBeUpdated = [author.id].concat(followerIDs);
-    // we update the feed for all the friends / followers
+    // we update the feed for all the mutual friends / followers
     userIDFeedsToBeUpdated.forEach((userID) => {
       const otherUserMainFeedRef = firestore()
         .collection('social_feeds')

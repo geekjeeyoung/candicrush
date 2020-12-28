@@ -30,22 +30,24 @@ class ProfileScreen extends Component {
             </Text>
           </View>
         ),
-      headerRight: !params.otherUser && (
-        <TNTouchableIcon
-          imageStyle={{tintColor: currentTheme.activeTintColor}}
-          iconSource={StyleDict.iconSet.bell}
-          onPress={params.navigateNotifi}
-          appStyles={StyleDict}
-        />
-      ),
-      headerLeft: Platform.OS === 'android' && (
-        <TNTouchableIcon
-          imageStyle={{tintColor: currentTheme.activeTintColor}}
-          iconSource={StyleDict.iconSet.menuHamburger}
-          onPress={params.openDrawer}
-          appStyles={StyleDict}
-        />
-      ),
+      headerRight: () =>
+        !params.otherUser && (
+          <TNTouchableIcon
+            imageStyle={{tintColor: currentTheme.activeTintColor}}
+            iconSource={StyleDict.iconSet.bell}
+            onPress={params.navigateNotifi}
+            appStyles={StyleDict}
+          />
+        ),
+      headerLeft: () =>
+        Platform.OS === 'android' && (
+          <TNTouchableIcon
+            imageStyle={{tintColor: currentTheme.activeTintColor}}
+            iconSource={StyleDict.iconSet.menuHamburger}
+            onPress={params.openDrawer}
+            appStyles={StyleDict}
+          />
+        ),
       headerStyle: {
         backgroundColor: currentTheme.backgroundColor,
         borderBottomColor: currentTheme.hairlineColor,

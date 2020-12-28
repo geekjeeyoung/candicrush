@@ -30,14 +30,15 @@ class CHFriendsScreen extends Component {
     const {params = {}} = navigation.state;
     return {
       headerTitle: headerTitle,
-      headerLeft: Platform.OS === 'android' && (
-        <TNTouchableIcon
-          imageStyle={{tintColor: currentTheme.activeTintColor}}
-          iconSource={StyleDict.iconSet.menuHamburger}
-          onPress={params.openDrawer}
-          appStyles={StyleDict}
-        />
-      ),
+      headerLeft: () =>
+        Platform.OS === 'android' && (
+          <TNTouchableIcon
+            imageStyle={{tintColor: currentTheme.activeTintColor}}
+            iconSource={StyleDict.iconSet.menuHamburger}
+            onPress={params.openDrawer}
+            appStyles={StyleDict}
+          />
+        ),
       headerStyle: {
         backgroundColor: currentTheme.backgroundColor,
         borderBottomColor: currentTheme.hairlineColor,

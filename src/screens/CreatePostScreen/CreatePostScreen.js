@@ -1,12 +1,14 @@
-import React, {Component} from 'react';
-import {View, Text, Alert} from 'react-native';
 import PropTypes from 'prop-types';
+import React, {Component} from 'react';
+import {ActivityIndicator, Alert, BackHandler} from 'react-native';
+import TextButton from 'react-native-button';
 import {connect} from 'react-redux';
 import StyleDict from '../../AppStyles';
+import {CreatePost} from '../../components';
+import {firebaseStorage} from '../../Core/firebase';
 import {Localized} from '../../Core/localization/Localization';
-import {ActivityIndicator} from 'react-native';
-import TextButton from 'react-native-button';
-import {BackHandler} from 'react-native';
+import {firebasePost} from '../../Core/socialgraph/feed/firebase';
+import {friendshipUtils} from '../../Core/socialgraph/friendships';
 
 const defaultPost = {
   postText: '',
@@ -30,13 +32,14 @@ class CreatePostScreen extends Component {
 
     return {
       headerTitle: Localized('Create Post'),
-      headerRight: params.isPosting ? (
-        <ActivityIndicator style={{margin: 10}} size="small" />
-      ) : (
-        <TextButton style={{marginRight: 12}} onPress={params.onPost}>
-          Post
-        </TextButton>
-      ),
+      headerRight: () =>
+        params.isPosting ? (
+          <ActivityIndicator style={{margin: 10}} size="small" />
+        ) : (
+          <TextButton style={{marginRight: 12}} onPress={params.onPost}>
+            Post
+          </TextButton>
+        ),
       headerStyle: {
         backgroundColor: currentTheme.backgroundColor,
         borderBottomColor: currentTheme.hairlineColor,
@@ -69,7 +72,7 @@ class CreatePostScreen extends Component {
       isPosting: false,
     });
 
-    // this.inputRef.current.focus();
+    this.inputRef.current.focus();
     this.willBlurSubscription = this.props.navigation.addListener(
       'willBlur',
       (payload) =>
@@ -128,18 +131,87 @@ class CreatePostScreen extends Component {
           postMedia: this.state.postMedia,
         },
       },
-      async () => {},
+      async () => {
+        if (
+          this.state.post &&
+          this.state.post.postMedia &&
+          this.state.post.postMedia.length === 0
+        ) {
+          await firebasePost.addPost(
+            this.state.post,
+            friendshipUtils.followerIDs(
+              this.props.friendships,
+              this.props.friends,
+              true,
+            ),
+            this.props.user,
+          );
+          this.props.navigation.goBack();
+        } else {
+          this.startPostUpload();
+        }
+      },
     );
+  };
+
+  startPostUpload = async () => {
+    const uploadPromises = [];
+    const mediaSources = [];
+    this.state.post.postMedia.forEach((media) => {
+      const {uploadUri, mime} = media;
+      uploadPromises.push(
+        new Promise((resolve, reject) => {
+          firebaseStorage.uploadImage(uploadUri).then((response) => {
+            if (!response.error) {
+              mediaSources.push({url: response.downloadURL, mime});
+            } else {
+              Alert.alert(
+                Localized(
+                  'Oops! An error occured while uploading your post. Please try again.',
+                ),
+              );
+            }
+            resolve();
+          });
+        }),
+      );
+    });
+    Promise.all(uploadPromises).then(async () => {
+      const postToUpload = {...this.state.post, postMedia: [...mediaSources]};
+      firebasePost.addPost(
+        postToUpload,
+        friendshipUtils.followerIDs(
+          this.props.friendships,
+          this.props.friends,
+          true,
+        ),
+        this.props.user,
+      );
+    });
+    this.props.navigation.goBack();
+  };
+
+  blurInput = () => {
+    this.inputRef.current.blur();
   };
 
   render() {
     return (
-      <View>
-        <Text> prop </Text>
-      </View>
+      <CreatePost
+        inputRef={this.inputRef}
+        user={this.props.user}
+        onPostDidChange={this.onPostDidChange}
+        onSetMedia={this.onSetMedia}
+        onLocationDidChange={this.onLocationDidChange}
+        blurInput={this.blurInput}
+      />
     );
   }
 }
+
+CreatePostScreen.propTypes = {
+  user: PropTypes.object,
+};
 
 const mapStateToProps = ({auth, friends}) => {
   return {
