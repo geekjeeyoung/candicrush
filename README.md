@@ -12,8 +12,6 @@
 
 ====================
 
-- handleSuccessfulLogin 다루기
-
 - SMS Auth 기능은 나중에 추가하기
 
 <br/>
@@ -21,3 +19,4 @@
 # **Profile Screen 만들기**
 
 - CREATE POST
+- handleSuccessfulLogin 다루기(with location)

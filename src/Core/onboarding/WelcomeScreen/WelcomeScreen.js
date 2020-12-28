@@ -38,6 +38,7 @@ const WelcomeScreen = (props) => {
       .retrievePersistedAuthUser()
       .then((response) => {
         if (response.user) {
+          setIsLoading(false);
           const user = response.user;
           props.setUserData({
             user: user,
