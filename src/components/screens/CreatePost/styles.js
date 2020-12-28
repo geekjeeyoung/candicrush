@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {ifIphoneX} from 'react-native-iphone-x-helper';
 import AppStyles from '../../../AppStyles';
 
@@ -13,7 +13,7 @@ const dynamicStyles = (colorScheme) => {
     },
     headerContainer: {
       flexDirection: 'row',
-      flex: 4.2,
+      flex: Platform.OS === 'android' ? 4.2 : 4.5,
     },
     titleContainer: {
       marginTop: 19,

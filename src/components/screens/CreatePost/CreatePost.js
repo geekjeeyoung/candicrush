@@ -196,8 +196,8 @@ function CreatePost(props) {
 
   return (
     <KeyboardAvoidingView
-      // behavior={'height'}
-      behavior="padding"
+      behavior="height"
+      // behavior="padding"
       enabled={false}
       style={styles.container}>
       <View style={styles.topContainer}>
