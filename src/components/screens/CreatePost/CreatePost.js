@@ -11,6 +11,7 @@ import {KeyboardAvoidingView} from 'react-native';
 import {TNStoryItem, TNTouchableIcon} from '../../../Core/truly-native';
 import StyleDict from '../../../AppStyles';
 import {ScrollView} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 function CreatePost(props) {
   const {
@@ -197,7 +198,6 @@ function CreatePost(props) {
   return (
     <KeyboardAvoidingView
       behavior="height"
-      // behavior="padding"
       enabled={false}
       style={styles.container}>
       <View style={styles.topContainer}>
@@ -225,7 +225,19 @@ function CreatePost(props) {
       </View>
       <View style={styles.bottomContainer}>
         <View style={styles.postImageAndLocationContainer}>
-          <ScrollView>{/* //Bookmark */}</ScrollView>
+          <ScrollView>
+            {media.map((singleMedia, index) => {
+              const {source, mime} = singleMedia;
+              if (mime.startsWith('image')) {
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.9}
+                    onPress={() => onMediaPress(index)}
+                  />
+                );
+              }
+            })}
+          </ScrollView>
           <View style={styles.addTitleAndlocationIconContainer}>
             <View style={styles.addTitleContainer}>
               <Text style={styles.addTitle}>
