@@ -1,5 +1,6 @@
 import {firebaseAuth} from '../../firebase';
 import {firebaseStorage} from '../../firebase/storage';
+import Geolocation from 'react-native-geolocation-service';
 
 const defaultProfilePhotoURL =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
@@ -96,10 +97,19 @@ const createAccountWithEmailAndPassword = (userDetails) => {
 const handleSuccessfulLogin = (user, accountJustCreated) => {
   // After a successful login, we fetch & store the device token for push notifications, location, online status, etc.
   // we don't wait for fetching & updating the location or push token, for performance reasons (especially on Android)
-  //   fetchAndStoreExtraInfoUponLogin(user, accountCreated);
+
+  fetchAndStoreExtraInfoUponLogin(user, accountJustCreated);
   return new Promise((resolve) => {
     resolve({user: {...user}});
   });
+};
+
+const fetchAndStoreExtraInfoUponLogin = async (user, accountJustCreated) => {
+  // firebaseAuth.fetchAndStorePushTokenIfPossible(user);
+};
+
+const getCurrentLocation = (geolocation) => {
+  return new Promise((resolve) => {});
 };
 
 const retrievePersistedAuthUser = () => {

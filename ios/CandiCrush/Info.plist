@@ -3,13 +3,23 @@
 <plist version="1.0">
 <dict>
   <key>NSPhotoLibraryUsageDescription</key>
-    <string>CandiCrush would like access to your photo gallery</string>
-    <key>NSCameraUsageDescription</key>
-    <string>CandiCrush would like to use your camera</string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>CandiCrush would like to save photos to your photo gallery</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>CandiCrush would like to use your microphone (for videos)</string>
+  <string>CandiCrush would like access to your photo gallery</string>
+  <key>NSCameraUsageDescription</key>
+  <string>CandiCrush would like to use your camera</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>CandiCrush would like to save photos to your photo gallery</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>CandiCrush would like to use your microphone (for videos)</string>
+  <key>NSAppleMusicUsageDescription</key>
+  <string>CandiCrush would like access to your Apple Music</string>
+  <key>NSContactsUsageDescription</key>
+  <string>CandiCrush would like access to your contacts</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>CandiCrush kindly asks for your permission to verify your location so that we can provide you with information relevant to your location and to help you interact more actively with other users</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>CandiCrush kindly asks for your permission to verify your location so that we can provide you with information relevant to your location and to help you interact more actively with other users</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>CandiCrush kindly asks for your permission to verify your location so that we can provide you with information relevant to your location and to help you interact more actively with other users</string>
   <key>UIViewControllerBasedStatusBarAppearance</key>
    <false/>
    <key>UIAppFonts</key>
@@ -66,8 +76,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>CandiCrush kindly asks for your permission to verify your location so that we can provide you with information relevant to your location and to help you interact more actively with other users.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
