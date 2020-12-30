@@ -20,3 +20,5 @@
 
 - CREATE POST
 - handleSuccessfulLogin 다루기(with location)
+
+- CHLocationSelectorModal 만들기

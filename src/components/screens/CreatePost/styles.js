@@ -13,7 +13,7 @@ const dynamicStyles = (colorScheme) => {
     },
     headerContainer: {
       flexDirection: 'row',
-      flex: Platform.OS === 'android' ? 4.2 : 4.5,
+      flex: Platform.OS === 'android' ? 4.2 : 7,
     },
     titleContainer: {
       marginTop: 19,
