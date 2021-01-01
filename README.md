@@ -21,7 +21,7 @@
 - CREATE POST
 - handleSuccessfulLogin 다루기(with location)
 
-- CHLocationSelectorModal 만들기
+- CHLocationSelectorModal 만들기 (map API)
 
 - firebaseAuth.fetchAndStorePushTokenIfPossible(user) 만들기 (firebase messaging 필요함)
 

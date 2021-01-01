@@ -12,6 +12,10 @@ import {TNStoryItem, TNTouchableIcon} from '../../../Core/truly-native';
 import StyleDict from '../../../AppStyles';
 import {ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
+import {createImageProgress} from 'react-native-image-progress';
+
+const Image = createImageProgress(FastImage);
 
 function CreatePost(props) {
   const {
