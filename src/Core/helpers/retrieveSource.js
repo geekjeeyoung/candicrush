@@ -1,6 +1,7 @@
 import {Platform} from 'react-native';
 
 exports.extractSourceFromFile = (file) => {
+  console.log(file);
   const mime = file.mime || file.type;
   const source = file.path || file.uri;
   const uploadUri =

@@ -11,6 +11,8 @@ pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
 pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+pod 'react-native-video', :path => '../node_modules/react-native-video/react-native-video.podspec'
+
 platform :ios, '10.0'
 
 target 'CandiCrush' do

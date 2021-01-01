@@ -14,6 +14,10 @@ import {ScrollView} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {createImageProgress} from 'react-native-image-progress';
+import CHLocationSelectorModal from '../../../Core/location/CHLocationSelectorModal/CHLocationSelectorModal';
+import ActionSheet from 'react-native-actionsheet';
+import Video from 'react-native-video';
+import {Alert} from 'react-native';
 
 const Image = createImageProgress(FastImage);
 
@@ -37,7 +41,7 @@ function CreatePost(props) {
   const [value, setValue] = useState('');
   const [isCameraContainer, setIsCameraContainer] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const uploadPhotoDialogRef = useRef();
+  const photoUploadDialogRef = useRef();
   const removePhotoDialogRef = useRef();
 
   const androidAddPhotoOptions = [
@@ -96,7 +100,7 @@ function CreatePost(props) {
   };
 
   const onCameraIconPress = () => {
-    uploadPhotoDialogRef.current.show();
+    photoUploadDialogRef.current.show();
   };
 
   const onPhotoUploadDialogDoneIOS = (index) => {
@@ -140,6 +144,20 @@ function CreatePost(props) {
       setMediaSources([...mediaSources, {filename, uploadUri, mime}]);
       onSetMedia([...mediaSources, {filename, uploadUri, mime}]);
     });
+  };
+
+  const onLaunchVideoCamera = () => {
+    ImagePicker.openCamera({cropping: false, mediaType: 'video'}).then(
+      (video) => {
+        const {filename, source, uploadUri, mime} = extractSourceFromFile(
+          video,
+        );
+
+        setMedia([...media, {source, mime}]);
+        setMediaSources([...mediaSources, {filename, uploadUri, mime}]);
+        onSetMedia([...mediaSources, {filename, uploadUri, mime}]);
+      },
+    );
   };
 
   const onOpenPhotos = () => {
@@ -196,7 +214,7 @@ function CreatePost(props) {
   };
 
   const onStoryItemPress = (item) => {
-    console.log('onStoryItemPress');
+    Alert.alert('onStoryItemPress');
   };
 
   return (
@@ -229,18 +247,49 @@ function CreatePost(props) {
       </View>
       <View style={styles.bottomContainer}>
         <View style={styles.postImageAndLocationContainer}>
-          <ScrollView>
+          <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={true}
+            style={[
+              styles.imagesContainer,
+              isCameraContainer ? {display: 'flex'} : {display: 'none'},
+            ]}>
             {media.map((singleMedia, index) => {
               const {source, mime} = singleMedia;
               if (mime.startsWith('image')) {
                 return (
                   <TouchableOpacity
-                    activeOpacity={0.9}
+                    activeOpacity={0.7}
                     onPress={() => onMediaPress(index)}
-                  />
+                    style={styles.imageItemcontainer}>
+                    <Image style={styles.imageItem} source={{uri: source}} />
+                  </TouchableOpacity>
+                );
+              } else {
+                return (
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => onMediaPress(index)}
+                    style={styles.imageItemcontainer}>
+                    <Video
+                      source={{uri: source}}
+                      resizeMode={'cover'}
+                      muted={true}
+                      repeat={true}
+                      style={styles.imageItem}
+                    />
+                  </TouchableOpacity>
                 );
               }
             })}
+            <TouchableOpacity
+              onPress={onCameraIconPress}
+              style={[styles.imageItemcontainer, styles.imageBackground]}>
+              <Image
+                style={styles.addImageIcon}
+                source={StyleDict.iconSet.cameraFilled}
+              />
+            </TouchableOpacity>
           </ScrollView>
           <View style={styles.addTitleAndlocationIconContainer}>
             <View style={styles.addTitleContainer}>
@@ -275,6 +324,22 @@ function CreatePost(props) {
         </View>
       </View>
       <View style={styles.blankBottom} />
+      <CHLocationSelectorModal />
+      <ActionSheet
+        ref={photoUploadDialogRef}
+        title={Localized('Add media')}
+        options={addPhotoOptions}
+        cancelButtonIndex={addPhotoCancelButtonIndex[Platform.OS]}
+        onPress={onPhotoUploadDialogDone}
+      />
+      <ActionSheet
+        ref={removePhotoDialogRef}
+        title={Localized('Remove media')}
+        options={[Localized('Remove'), Localized('Cancel')]}
+        destructiveButtonIndex={0}
+        cancelButtonIndex={1}
+        onPress={onRemovePhotoDialogDone}
+      />
     </KeyboardAvoidingView>
   );
 }

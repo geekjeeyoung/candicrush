@@ -75,8 +75,8 @@ const dynamicStyles = (colorScheme) => {
       height: '100%',
     },
     addImageIcon: {
-      width: '50%',
-      height: '50%',
+      width: '60%',
+      height: '60%',
     },
     addTitleAndlocationIconContainer: {
       flexDirection: 'row',
