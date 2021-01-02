@@ -35,3 +35,26 @@ export const addPost = async (post, followerIDs, author) => {
     return {error, success: false};
   }
 };
+
+export const subscribeToProfileFeedPosts = (userID, callback) => {
+  const profilePostsRef = postsRef
+    .where('authorID', '==', userID)
+    .orderBy('createdAt', 'desc')
+    .onSnapshot(
+      {includeMetadataChanges: true},
+      (querySnapshot) => {
+        const posts = [];
+        querySnapshot.forEach((doc) => {
+          const post = doc.data;
+          post.id = doc.id;
+          posts.push(post);
+        });
+        return callback(posts);
+      },
+      (error) => {
+        console.log(error);
+        callback([]);
+      },
+    );
+  return profilePostsRef;
+};

@@ -7,6 +7,8 @@ import {Localized} from '../../Core/localization/Localization';
 import {TNTouchableIcon} from '../../Core/truly-native';
 import {setUserData} from '../../Core/onboarding/redux/auth';
 import {FriendshipConstants} from '../../Core/socialgraph/friendships';
+import {firebasePost} from '../../Core/socialgraph/feed/firebase';
+import {firebaseUser} from '../../Core/firebase';
 
 const defaultAvatar =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
@@ -69,11 +71,13 @@ class ProfileScreen extends Component {
       : false;
 
     this.state = {
-      uploadProgress: 50,
-      profilePosts: null,
+      isCameraOpen: false,
+      uploadProgress: 80,
+      profilePosts: [],
       isMediaViewerOpen: false,
       selectedFeedItems: [],
       loading: true,
+      userFeed: [],
       shouldAddFriend: shouldAddFriend,
       isFetching: false,
       selectedMediaIndex: null,
@@ -130,8 +134,47 @@ class ProfileScreen extends Component {
     // if this screen is other person's profile screen
     if (this.otherUser && this.otherUser.id != this.props.user.id) {
       let profileUserID = this.otherUser.id;
+      this.currentProfileFeedUnsubscribe = firebasePost.subscribeToProfileFeedPosts(
+        profileUserID,
+        this.onProfileFeedUpdate,
+      );
+      this.currentUserUnsubscribe = firebaseUser.subscribeCurrentUser(
+        profileUserID,
+        this.onCurrentUserUpdate,
+      );
+    } else {
+      this.currentProfileFeedUnsubscribe = firebasePost.subscribeToProfileFeedPosts(
+        this.props.user.id,
+        this.onProfileFeedUpdate,
+      );
+      this.currentUserUnsubscribe = firebaseUser.subscribeCurrentUser(
+        this.props.user.id,
+        this.onCurrentUserUpdate,
+      );
     }
   }
+
+  componentWillUnmount() {
+    this.willBlur = true;
+    this.didFocusSubscription && this.didFocusSubscription.remove();
+    this.willBlurSubscription && this.willBlurSubscription.remove();
+    this.currentProfileFeedUnsubscribe && this.currentProfileFeedUnsubscribe();
+    this.currentUserUnsubscribe && this.currentUserUnsubscribe();
+  }
+
+  onProfileFeedUpdate = (profilePosts) => {
+    this.setState({
+      profilePosts,
+      loading: false,
+    });
+  };
+
+  onCurrentUserUpdate = (user) => {
+    this.setState({
+      inboundFriendsCount: user.inboundFriendsCount || 0,
+      outboundFriendsCount: user.outboundFriendsCount || 0,
+    });
+  };
 
   onBackButtonPressAndroid = () => {
     this.props.navigation.goBack();
@@ -154,6 +197,17 @@ class ProfileScreen extends Component {
   };
 
   render() {
+    let currentProfile = this.otherUser || this.props.user;
+    let postsCount = currentProfile.postsCount || 0;
+    let mainButtonTitle = Localized('Profile Settings');
+
+    if (this.otherUser) {
+      mainButtonTitle = Localized('Send Direct Message');
+      if (this.state.shouldAddFriend) {
+        mainButtonTitle = Localized('Follow');
+      }
+    }
+
     return (
       <Profile
         uploadProgress={this.state.uploadProgress}
@@ -162,6 +216,9 @@ class ProfileScreen extends Component {
         user={this.otherUser ? this.otherUser : this.props.user}
         isOtherUser={this.otherUser}
         onEmptyStatePress={this.onEmptyStatePress}
+        followingCount={this.state.outboundFriendsCount}
+        followersCount={this.state.inboundFriendsCount}
+        postsCount={postsCount}
       />
     );
   }

@@ -1,4 +1,5 @@
 import React, {useRef} from 'react';
+import {TouchableOpacity} from 'react-native';
 import {Alert} from 'react-native';
 import {View, Text, FlatList} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
@@ -6,6 +7,7 @@ import {useColorScheme} from 'react-native-appearance';
 import StyleDict from '../../../AppStyles';
 import {Localized} from '../../../Core/localization/Localization';
 import {TNEmptyStateView, TNStoryItem} from '../../../Core/truly-native';
+import FeedMedia from '../../FeedItem/FeedMedia';
 import dynamicStyles from './styles';
 
 function Profile(props) {
@@ -18,6 +20,9 @@ function Profile(props) {
     user,
     isOtherUser,
     onEmptyStatePress,
+    followingCount,
+    followersCount,
+    postsCount,
   } = props;
 
   const updatePhotoDialogActionSheet = useRef();
@@ -33,22 +38,49 @@ function Profile(props) {
     Alert.alert('onUpdatePhotoDialogDone');
   };
 
+  const renderItem = ({item, index}) => {
+    return <FeedMedia />;
+  };
+
   const renderListHeader = () => {
     return (
       <View style={styles.subContainer}>
         <View style={styles.userCardContainer}>
           <TNStoryItem
             item={user}
-            appStyles={StyleDict}
-            activeOpacity={1}
-            onPress={onProfilePicturePress}
             imageStyle={styles.userImage}
             imageContainerStyle={styles.userImageContainer}
             containerStyle={styles.userImageMainContainer}
-            title={true}
+            appStyles={StyleDict}
+            activeOpacity={1}
+            onPress={onProfilePicturePress}
             textStyle={styles.userName}
+            title={true}
           />
+          <View style={styles.countItemsContainer}>
+            <TouchableOpacity activeOpacity={0.7} style={styles.countContainer}>
+              <Text style={styles.count}>{postsCount}</Text>
+              <Text style={styles.countTitle}>
+                {postsCount == 1 || postsCount == 0
+                  ? Localized('Post')
+                  : Localized('Posts')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} style={styles.countContainer}>
+              <Text style={styles.count}>{followersCount}</Text>
+              <Text style={styles.countTitle}>
+                {followersCount == 1 || followersCount == 0
+                  ? Localized('Follower')
+                  : Localized('Followers')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.7} style={styles.countContainer}>
+              <Text style={styles.count}>{followingCount}</Text>
+              <Text style={styles.countTitle}>{Localized('Following')}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+        {/* BookMark */}
       </View>
     );
   };
@@ -80,12 +112,14 @@ function Profile(props) {
   return (
     <View style={styles.container}>
       <View style={[styles.progressBar, {width: `${uploadProgress}%`}]} />
-      {/* {recentUserFeeds && ( */}
-      <FlatList
-        ListEmptyComponent={renderEmptyComponent}
-        ListHeaderComponent={renderListHeader}
-      />
-      {/* )} */}
+      {recentUserFeeds && (
+        <FlatList
+          data={recentUserFeeds}
+          renderItem={renderItem}
+          ListEmptyComponent={renderEmptyComponent}
+          ListHeaderComponent={renderListHeader}
+        />
+      )}
 
       <ActionSheet
         ref={updatePhotoDialogActionSheet}
