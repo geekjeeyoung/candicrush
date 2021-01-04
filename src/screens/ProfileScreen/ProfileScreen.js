@@ -9,6 +9,7 @@ import {setUserData} from '../../Core/onboarding/redux/auth';
 import {FriendshipConstants} from '../../Core/socialgraph/friendships';
 import {firebasePost} from '../../Core/socialgraph/feed/firebase';
 import {firebaseUser} from '../../Core/firebase';
+import CandiCrushConfig from '../../CandiCrushConfig';
 
 const defaultAvatar =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
@@ -196,6 +197,38 @@ class ProfileScreen extends Component {
     this.props.navigation.navigate('CreatePost');
   };
 
+  onPostPress = ({item, index}) => {
+    this.props.navigation.navigate('ProfilePostDetails', {
+      item: item,
+      lastScreenTitle: this.lastScreenTitle,
+    });
+  };
+
+  handleOnEndReached = (distanceFromEnd) => {
+    if (this.state.isFetching || this.isFetching) {
+      return;
+    }
+    if (this.fetchCallCount > 1) {
+      return;
+    }
+  };
+
+  onMainButtonPress = () => {
+    if (this.state.shouldAddFriend) {
+      this.onAddFriend();
+      return;
+    }
+    if (this.otherUser) {
+      this.onMessage();
+      return;
+    }
+    this.props.navigation.navigate(this.ProfileSettingsTitle, {
+      lastScreenTitle: this.lastScreenTitle, // Profile
+      appStyles: StyleDict,
+      appConfig: CandiCrushConfig,
+    });
+  };
+
   render() {
     let currentProfile = this.otherUser || this.props.user;
     let postsCount = currentProfile.postsCount || 0;
@@ -219,6 +252,10 @@ class ProfileScreen extends Component {
         followingCount={this.state.outboundFriendsCount}
         followersCount={this.state.inboundFriendsCount}
         postsCount={postsCount}
+        mainButtonTitle={mainButtonTitle}
+        onMainButtonPress={this.onMainButtonPress}
+        onPostPress={this.onPostPress}
+        handleOnEndReached={this.handleOnEndReached}
       />
     );
   }

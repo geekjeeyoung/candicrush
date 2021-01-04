@@ -13,7 +13,7 @@ const dynamicStyles = (colorScheme) => {
       // alignItems: 'center',
     },
     emptyViewContainer: {
-      marginTop: height / 6,
+      marginVertical: height / 6,
     },
     progressBar: {
       backgroundColor: AppStyles.colorSet[colorScheme].mainThemeForegroundColor,

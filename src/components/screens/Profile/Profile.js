@@ -1,5 +1,6 @@
 import React, {useRef} from 'react';
 import {TouchableOpacity} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import {Alert} from 'react-native';
 import {View, Text, FlatList} from 'react-native';
 import ActionSheet from 'react-native-actionsheet';
@@ -8,12 +9,15 @@ import StyleDict from '../../../AppStyles';
 import {Localized} from '../../../Core/localization/Localization';
 import {TNEmptyStateView, TNStoryItem} from '../../../Core/truly-native';
 import FeedMedia from '../../FeedItem/FeedMedia';
+import ProfileButton from './ProfileButton';
 import dynamicStyles from './styles';
 
 function Profile(props) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const {
+    onMainButtonPress,
+    mainButtonTitle,
     uploadProgress,
     recentUserFeeds,
     loading,
@@ -23,6 +27,8 @@ function Profile(props) {
     followingCount,
     followersCount,
     postsCount,
+    handleOnEndReached,
+    onPostPress,
   } = props;
 
   const updatePhotoDialogActionSheet = useRef();
@@ -39,7 +45,18 @@ function Profile(props) {
   };
 
   const renderItem = ({item, index}) => {
-    return <FeedMedia />;
+    return (
+      <FeedMedia
+        key={index + ''}
+        index={index}
+        onMediaPress={onPostPress}
+        media={item.postMedia && item.postMedia[0]}
+        item={item}
+        mediaStyle={styles.gridItemImage}
+        mediaContainerStyle={styles.gridItemContainer}
+        dynamicStyles={styles}
+      />
+    );
   };
 
   const renderListHeader = () => {
@@ -80,7 +97,19 @@ function Profile(props) {
             </TouchableOpacity>
           </View>
         </View>
-        {/* BookMark */}
+        <ProfileButton
+          title={mainButtonTitle}
+          containerStyle={{marginVertical: 40}}
+          onPress={onMainButtonPress}
+        />
+        {loading ? (
+          <View style={styles.container}>
+            <ActivityIndicator
+              style={{marginTop: 15, alignSelf: 'center'}}
+              size="small"
+            />
+          </View>
+        ) : null}
       </View>
     );
   };
@@ -116,6 +145,11 @@ function Profile(props) {
         <FlatList
           data={recentUserFeeds}
           renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          onEndReachedThreshold={0.5}
+          onEndReached={handleOnEndReached}
+          // numColumns={3}
+          // horizontal={false}
           ListEmptyComponent={renderEmptyComponent}
           ListHeaderComponent={renderListHeader}
         />
