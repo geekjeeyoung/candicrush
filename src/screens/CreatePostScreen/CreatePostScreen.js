@@ -108,10 +108,12 @@ class CreatePostScreen extends Component {
   onPost = async () => {
     const isEmptyPost = this.state.post.postText.trim() === '';
 
-    if (this.state.postMedia.length === 0 && isEmptyPost) {
+    if (this.state.postMedia.length === 0) {
       Alert.alert(
         'Post not completed',
-        Localized('You may not upload an empty post. Kindly try again.'),
+        Localized(
+          'You cannot upload a post without uploaded photos or videos. Please try again.',
+        ),
         [{text: Localized('OK')}],
         {cancelable: false},
       );

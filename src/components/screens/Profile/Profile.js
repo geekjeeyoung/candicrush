@@ -149,7 +149,7 @@ function Profile(props) {
           onEndReachedThreshold={0.5}
           onEndReached={handleOnEndReached}
           // numColumns={3}
-          // horizontal={false}
+          horizontal={false}
           ListEmptyComponent={renderEmptyComponent}
           ListHeaderComponent={renderListHeader}
         />

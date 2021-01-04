@@ -10,7 +10,6 @@ const dynamicStyles = (colorScheme) => {
     container: {
       flex: 1,
       backgroundColor: AppStyles.colorSet[colorScheme].whiteSmoke,
-      // alignItems: 'center',
     },
     emptyViewContainer: {
       marginVertical: height / 6,
@@ -25,12 +24,13 @@ const dynamicStyles = (colorScheme) => {
       flex: 1,
       backgroundColor: AppStyles.colorSet[colorScheme].whiteSmoke,
       alignItems: 'center',
-      // width: '100%',
+      width: '100%',
     },
     userCardContainer: {
       flexDirection: 'row',
+      justifyContent: 'space-around',
       alignSelf: 'flex-start',
-      // width: '100%',
+      width: '100%',
     },
     countItemsContainer: {
       flexDirection: 'row',
@@ -93,7 +93,7 @@ const dynamicStyles = (colorScheme) => {
       height: Math.floor(AppStyles.WINDOW_HEIGHT * 0.18),
       width: Math.floor(AppStyles.WINDOW_WIDTH * 0.318),
       // width: Math.floor(AppStyles.WINDOW_WIDTH * 0.324),
-      // borderRadius: Math.floor(AppStyles.WINDOW_WIDTH * 0.013),
+      borderRadius: Math.floor(AppStyles.WINDOW_WIDTH * 0.013),
       backgroundColor: AppStyles.colorSet[colorScheme].mainThemeBackgroundColor,
       justifyContent: 'center',
       alignItems: 'center',

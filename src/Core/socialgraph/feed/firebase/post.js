@@ -45,7 +45,7 @@ export const subscribeToProfileFeedPosts = (userID, callback) => {
       (querySnapshot) => {
         const posts = [];
         querySnapshot.forEach((doc) => {
-          const post = doc.data;
+          const post = doc.data();
           post.id = doc.id;
           posts.push(post);
         });
