@@ -11,13 +11,13 @@ import {TNEmptyStateView, TNStoryItem} from '../../../Core/truly-native';
 import FeedMedia from '../../FeedItem/FeedMedia';
 import ProfileButton from './ProfileButton';
 import dynamicStyles from './styles';
+import * as ImagePicker from 'expo-image-picker';
+import PropTypes from 'prop-types';
 
 function Profile(props) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(colorScheme);
   const {
-    onMainButtonPress,
-    mainButtonTitle,
     uploadProgress,
     recentUserFeeds,
     loading,
@@ -27,11 +27,23 @@ function Profile(props) {
     followingCount,
     followersCount,
     postsCount,
-    handleOnEndReached,
+    mainButtonTitle,
+    onMainButtonPress,
     onPostPress,
+    handleOnEndReached,
+    selectedMediaIndex,
+    isMediaViewerOpen,
+    feedItems,
+    onMediaClose,
+    removePhoto,
+    startUpload,
+    isFetching,
+    onFollowersButtonPress,
+    onFollowingButtonPress,
   } = props;
 
   const updatePhotoDialogActionSheet = useRef();
+  const photoUploadDialogActionSheet = useRef();
 
   const onProfilePicturePress = () => {
     if (isOtherUser) {
@@ -40,8 +52,50 @@ function Profile(props) {
     updatePhotoDialogActionSheet.current.show();
   };
 
-  const onUpdatePhotoDialogDone = () => {
-    Alert.alert('onUpdatePhotoDialogDone');
+  const onUpdatePhotoDialogDone = (index) => {
+    if (index === 0) {
+      photoUploadDialogActionSheet.current.show();
+    }
+    if (index === 1) {
+      removePhoto();
+    }
+  };
+
+  const onPhotoUploadDialogDone = (index) => {
+    if (index === 0) {
+      onLaunchCamera();
+    }
+
+    if (index === 1) {
+      onOpenPhotos();
+    }
+  };
+
+  const onLaunchCamera = async () => {
+    let permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissionResult.granted === false) {
+      return;
+    }
+
+    let {uri} = await ImagePicker.launchCameraAsync();
+
+    if (uri) {
+      startUpload(uri);
+    }
+  };
+
+  const onOpenPhotos = async () => {
+    let permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      return;
+    }
+
+    let {uri} = await ImagePicker.launchImageLibraryAsync();
+
+    if (uri) {
+      startUpload(uri);
+    }
   };
 
   const renderItem = ({item, index}) => {
@@ -54,9 +108,18 @@ function Profile(props) {
         item={item}
         mediaStyle={styles.gridItemImage}
         mediaContainerStyle={styles.gridItemContainer}
-        // dynamicStyles={styles}
       />
     );
+  };
+
+  const renderListFooter = () => {
+    if (loading) {
+      return null;
+    }
+    if (isFetching) {
+      return <ActivityIndicator style={{marginVertical: 7}} size="small" />;
+    }
+    return null;
   };
 
   const renderListHeader = () => {
@@ -83,7 +146,10 @@ function Profile(props) {
                   : Localized('Posts')}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7} style={styles.countContainer}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.countContainer}
+              onPress={onFollowersButtonPress}>
               <Text style={styles.count}>{followersCount}</Text>
               <Text style={styles.countTitle}>
                 {followersCount == 1 || followersCount == 0
@@ -91,7 +157,10 @@ function Profile(props) {
                   : Localized('Followers')}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.7} style={styles.countContainer}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.countContainer}
+              onPress={onFollowingButtonPress}>
               <Text style={styles.count}>{followingCount}</Text>
               <Text style={styles.countTitle}>{Localized('Following')}</Text>
             </TouchableOpacity>
@@ -152,12 +221,12 @@ function Profile(props) {
           horizontal={false}
           ListEmptyComponent={renderEmptyComponent}
           ListHeaderComponent={renderListHeader}
-          // ListFooterComponent={renderListFooter}
+          ListFooterComponent={renderListFooter}
           style={{width: '97%'}}
           showsVerticalScrollIndicator={true}
         />
       )}
-
+      {/* TNMediaViewerModal 만들기 */}
       <ActionSheet
         ref={updatePhotoDialogActionSheet}
         title={Localized('Profile Picture')}
@@ -170,8 +239,35 @@ function Profile(props) {
         destructiveButtonIndex={1}
         onPress={onUpdatePhotoDialogDone}
       />
+      <ActionSheet
+        ref={photoUploadDialogActionSheet}
+        title={Localized('Select Photo')}
+        options={[
+          Localized('Camera'),
+          Localized('Library'),
+          Localized('Cancel'),
+        ]}
+        cancelButtonIndex={2}
+        onPress={onPhotoUploadDialogDone}
+      />
     </View>
   );
 }
+
+Profile.propTypes = {
+  startUpload: PropTypes.func,
+  removePhoto: PropTypes.func,
+  onMainButtonPress: PropTypes.func,
+
+  mainButtonTitle: PropTypes.string,
+
+  feedItems: PropTypes.array,
+  onMediaClose: PropTypes.func,
+  isMediaViewerOpen: PropTypes.bool,
+  onMediaPress: PropTypes.func,
+
+  selectedMediaIndex: PropTypes.number,
+  uploadProgress: PropTypes.number,
+};
 
 export default Profile;

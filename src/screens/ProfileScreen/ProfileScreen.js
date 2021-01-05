@@ -10,6 +10,7 @@ import {FriendshipConstants} from '../../Core/socialgraph/friendships';
 import {firebasePost} from '../../Core/socialgraph/feed/firebase';
 import {firebaseUser} from '../../Core/firebase';
 import CandiCrushConfig from '../../CandiCrushConfig';
+import {Alert} from 'react-native';
 
 const defaultAvatar =
   'https://www.iosapptemplates.com/wp-content/uploads/2019/06/empty-avatar.jpg';
@@ -229,6 +230,34 @@ class ProfileScreen extends Component {
     });
   };
 
+  onMediaClose = () => {
+    this.setState({isMediaViewerOpen: false});
+  };
+
+  removePhoto = () => {
+    Alert.alert('removePhoto');
+  };
+
+  startUpload = () => {
+    Alert.alert('startUpload');
+  };
+
+  onFollowersButtonPress = () => {
+    Alert.alert('onFollowersButtonPress');
+  };
+
+  onFollowingButtonPress = () => {
+    Alert.alert('onFollowingButtonPress');
+  };
+
+  onAddFriend = () => {
+    Alert.alert('onAddFriend');
+  };
+
+  onMessage = () => {
+    Alert.alert('onMessage');
+  };
+
   render() {
     let currentProfile = this.otherUser || this.props.user;
     let postsCount = currentProfile.postsCount || 0;
@@ -256,6 +285,15 @@ class ProfileScreen extends Component {
         onMainButtonPress={this.onMainButtonPress}
         onPostPress={this.onPostPress}
         handleOnEndReached={this.handleOnEndReached}
+        selectedMediaIndex={this.state.selectedMediaIndex}
+        isMediaViewerOpen={this.state.isMediaViewerOpen}
+        feedItems={this.state.selectedFeedItems}
+        onMediaClose={this.onMediaClose}
+        removePhoto={this.removePhoto}
+        startUpload={this.startUpload}
+        isFetching={this.state.isFetching}
+        onFollowersButtonPress={this.onFollowersButtonPress}
+        onFollowingButtonPress={this.onFollowingButtonPress}
       />
     );
   }
