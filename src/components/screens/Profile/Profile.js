@@ -152,6 +152,9 @@ function Profile(props) {
           horizontal={false}
           ListEmptyComponent={renderEmptyComponent}
           ListHeaderComponent={renderListHeader}
+          // ListFooterComponent={renderListFooter}
+          style={{width: '97%'}}
+          showsVerticalScrollIndicator={true}
         />
       )}
 
