@@ -54,7 +54,7 @@ function Profile(props) {
         item={item}
         mediaStyle={styles.gridItemImage}
         mediaContainerStyle={styles.gridItemContainer}
-        dynamicStyles={styles}
+        // dynamicStyles={styles}
       />
     );
   };

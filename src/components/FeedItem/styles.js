@@ -158,16 +158,31 @@ const dynamicStyles = (colorScheme) => {
     },
     soundIconContainer: {
       position: 'absolute',
-      backgroundColor: 'transparent',
-      bottom: 0,
-      right: 0,
+      // backgroundColor: AppStyles.colorSet[colorScheme].mainThemeForegroundColor,
+      backgroundColor: '#000',
+      width: 28,
+      height: 28,
+      borderRadius: 14,
+      bottom: 3,
+      right: 3,
       justifyContent: 'center',
       alignItems: 'center',
+      // shadow generator
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 12,
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.0,
+
+      elevation: 24,
     },
     soundIcon: {
+      // tintColor: AppStyles.colorSet[colorScheme].mainThemeBackgroundColor,
       tintColor: '#fff',
-      width: 19,
-      height: 19,
+      width: 15,
+      height: 15,
     },
     tintColor: {tintColor: AppStyles.colorSet[colorScheme].mainTextColor},
   });

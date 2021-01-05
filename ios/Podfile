@@ -3,7 +3,7 @@ $FirebaseSDKVersion = '7.0.0'
 
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-
+require_relative '../node_modules/react-native-unimodules/cocoapods.rb'
 
 # add the Firebase pod for Google Analytics
 pod 'Firebase/Analytics'
@@ -17,6 +17,8 @@ pod 'react-native-video', :path => '../node_modules/react-native-video/react-nat
 platform :ios, '10.0'
 
 target 'CandiCrush' do
+  use_unimodules!
+
   # React Native Maps dependencies
   rn_maps_path = '../node_modules/react-native-maps'
   pod 'react-native-google-maps', :path => rn_maps_path
