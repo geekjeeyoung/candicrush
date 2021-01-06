@@ -13,6 +13,7 @@ import ProfileButton from './ProfileButton';
 import dynamicStyles from './styles';
 import * as ImagePicker from 'expo-image-picker';
 import PropTypes from 'prop-types';
+import TNMediaViewerModal from '../../../Core/truly-native/TNMediaViewerModal';
 
 function Profile(props) {
   const colorScheme = useColorScheme();
@@ -226,7 +227,12 @@ function Profile(props) {
           showsVerticalScrollIndicator={true}
         />
       )}
-      {/* TNMediaViewerModal 만들기 */}
+      <TNMediaViewerModal
+        mediaItems={feedItems}
+        isModalOpen={isMediaViewerOpen}
+        onClosed={onMediaClose}
+        selectedMediaIndex={selectedMediaIndex}
+      />
       <ActionSheet
         ref={updatePhotoDialogActionSheet}
         title={Localized('Profile Picture')}

@@ -8,7 +8,7 @@ import {TNTouchableIcon} from '../../Core/truly-native';
 import {setUserData} from '../../Core/onboarding/redux/auth';
 import {FriendshipConstants} from '../../Core/socialgraph/friendships';
 import {firebasePost} from '../../Core/socialgraph/feed/firebase';
-import {firebaseUser} from '../../Core/firebase';
+import {firebaseStorage, firebaseUser} from '../../Core/firebase';
 import CandiCrushConfig from '../../CandiCrushConfig';
 import {Alert} from 'react-native';
 
@@ -74,7 +74,7 @@ class ProfileScreen extends Component {
 
     this.state = {
       isCameraOpen: false,
-      uploadProgress: 80,
+      uploadProgress: 0,
       profilePosts: [],
       isMediaViewerOpen: false,
       selectedFeedItems: [],
@@ -234,26 +234,91 @@ class ProfileScreen extends Component {
     this.setState({isMediaViewerOpen: false});
   };
 
-  removePhoto = () => {
-    Alert.alert('removePhoto');
+  startUpload = async (url) => {
+    this.props.setUserData({
+      user: {...this.props.user, profilePictureURL: url},
+    });
+
+    const filename = new Date() + '-' + url.substring(url.lastIndexOf('/') + 1);
+    const uploadUri = Platform.OS === 'ios' ? url.replace('file://', '') : url;
+
+    firebaseStorage.uploadFileWithProgressTracking(
+      filename,
+      uploadUri,
+      async (snapshot) => {
+        const uploadProgress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        this.setState({uploadProgress});
+      },
+      async (downloadURL) => {
+        const data = {
+          profilePictureURL: downloadURL,
+        };
+        this.props.setUserData({
+          user: {...this.props.user, profilePictureURL: downloadURL},
+        });
+
+        firebaseUser.updateUserData(this.props.user.id, data);
+        this.setState({uploadProgress: 0});
+      },
+      (error) => {
+        this.setState({uploadProgress: 0});
+        Alert.alert(
+          Localized(
+            'An error occured while trying to update your profile picture. Please try again.',
+          ),
+        );
+        console.log(error);
+      },
+    );
   };
 
-  startUpload = () => {
-    Alert.alert('startUpload');
+  removePhoto = async () => {
+    const res = await firebaseUser.updateUserData(this.props.user.id, {
+      profilePictureURL: defaultAvatar,
+    });
+    if (res.success) {
+      this.props.setUserData({
+        user: {...this.props.user, profilePictureURL: defaultAvatar},
+      });
+    } else {
+      Alert.alert(
+        'An error occured while trying to remove your profile picture. Please try again.',
+      );
+    }
   };
 
   onFollowersButtonPress = () => {
-    Alert.alert('onFollowersButtonPress');
+    this.props.navigation.push(this.lastScreenTitle + 'AllFriends', {
+      lastScreenTitle: this.lastScreenTitle,
+      title: Localized('Followers'),
+      stackKeyTitle: this.stackKeyTitle,
+      otherUser: this.otherUser,
+      includeInbound: true,
+      appStyles: StyleDict,
+      followEnabled: true,
+    });
   };
 
   onFollowingButtonPress = () => {
-    Alert.alert('onFollowingButtonPress');
+    this.props.navigation.push(this.lastScreenTitle + 'AllFriends', {
+      // channels: this.props.channels,
+      lastScreenTitle: this.lastScreenTitle,
+      title: 'Following',
+      stackKeyTitle: this.stackKeyTitle,
+      otherUser: this.otherUser,
+      includeOutbound: true,
+      appStyles: StyleDict,
+      followEnabled: true,
+    });
   };
 
+  // when the profile is other's profile & we aren't friends yet
   onAddFriend = () => {
     Alert.alert('onAddFriend');
   };
 
+  //when the profile is my friend's profile
   onMessage = () => {
     Alert.alert('onMessage');
   };

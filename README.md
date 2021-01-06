@@ -25,6 +25,10 @@
 
 - firebaseAuth.fetchAndStorePushTokenIfPossible(user) 만들기 (firebase messaging 필요함)
 
+# TNMediaViewerModal 만들기
+
+# 프로필이 다른 사람 프로필이거나 친구 프로필일 떄, profileScreen.js 에 onAddFriend()와 onMessage() 민들기
+
 <br/>
 
 ## iOS Info.plist - permission list
