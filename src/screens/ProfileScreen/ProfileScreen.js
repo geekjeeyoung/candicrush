@@ -235,9 +235,9 @@ class ProfileScreen extends Component {
   };
 
   startUpload = async (url) => {
-    this.props.setUserData({
-      user: {...this.props.user, profilePictureURL: url},
-    });
+    // this.props.setUserData({
+    //   user: {...this.props.user, profilePictureURL: url},
+    // });
 
     const filename = new Date() + '-' + url.substring(url.lastIndexOf('/') + 1);
     const uploadUri = Platform.OS === 'ios' ? url.replace('file://', '') : url;

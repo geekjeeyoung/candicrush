@@ -16,7 +16,7 @@ const dynamicStyles = (colorScheme) => {
     },
     progressBar: {
       backgroundColor: AppStyles.colorSet[colorScheme].mainThemeForegroundColor,
-      height: 3,
+      height: 4,
       shadowColor: '#000',
       width: 0,
     },
