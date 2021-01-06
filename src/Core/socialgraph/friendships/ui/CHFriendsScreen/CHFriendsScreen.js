@@ -1,17 +1,28 @@
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import {Platform, Text, View} from 'react-native';
-import {connect} from 'react-redux';
+import {connect, ReactReduxContext} from 'react-redux';
 import {CHFriendsListComponent} from '../..';
 import StyleDict from '../../../../../AppStyles';
 import {Localized} from '../../../../localization/Localization';
 import {TNTouchableIcon} from '../../../../truly-native';
+import {setFriendships, setFriends} from '../../redux';
+import {setUsers} from '../../../../onboarding/redux/auth';
+import PropTypes from 'prop-types';
+import FriendshipTracker from '../../firebase/tracker';
 
 class CHFriendsScreen extends Component {
+  static contextType = ReactReduxContext;
+
   static navigationOptions = ({screenProps, navigation}) => {
-    let currentTheme = StyleDict.navThemeConstants[screenProps.theme];
+    let appStyles = navigation.state.params.appStyles;
+    let showDrawerMenuButton = navigation.state.params.showDrawerMenuButton;
     let headerTitle =
-      Platform.OS === 'ios' ? (
-        Localized('Friends')
+      navigation.state.params.friendsScreenTitle || Localized('Friends');
+    let currentTheme = appStyles.navThemeConstants[screenProps.theme];
+    const {params = {}} = navigation.state;
+    return {
+      headerTitle: !showDrawerMenuButton ? (
+        headerTitle
       ) : (
         <View
           style={{
@@ -23,20 +34,17 @@ class CHFriendsScreen extends Component {
               fontSize: 18,
               // color: currentTheme.fontColor,
             }}>
-            {Localized('Friends')}
+            {headerTitle}
           </Text>
         </View>
-      );
-    const {params = {}} = navigation.state;
-    return {
-      headerTitle: headerTitle,
+      ),
       headerLeft: () =>
-        Platform.OS === 'android' && (
+        showDrawerMenuButton && (
           <TNTouchableIcon
             imageStyle={{tintColor: currentTheme.activeTintColor}}
-            iconSource={StyleDict.iconSet.menuHamburger}
+            iconSource={appStyles.iconSet.menuHamburger}
             onPress={params.openDrawer}
-            appStyles={StyleDict}
+            appStyles={appStyles}
           />
         ),
       headerStyle: {
@@ -50,18 +58,38 @@ class CHFriendsScreen extends Component {
   constructor(props) {
     super(props);
 
+    this.appStyles =
+      props.navigation.state.params.appStyles ||
+      props.navigation.getParam('appStyles');
+    this.followEnabled =
+      props.navigation.state.params.followEnabled ||
+      props.navigation.getParam('followEnabled');
+
     this.state = {
       isSearchModalOpen: false,
+      filteredFriendships: [],
+      isLoading: false,
     };
-
-    this.searchBarRef = React.createRef();
+    this.searchBarRef = createRef();
   }
 
   componentDidMount() {
+    const user = this.props.user;
+    this.friendshipTracker = new FriendshipTracker(
+      this.context.store,
+      user.id,
+      this.followEnabled,
+      this.followEnabled,
+      this.followEnabled,
+    );
+    this.friendshipTracker.subscribeIfNeeded();
+
     this.props.navigation.setParams({
       openDrawer: this.openDrawer,
     });
   }
+
+  // {Bookmark : componentWillUnmount() 부터 만들기}
 
   openDrawer = () => {
     this.props.navigation.openDrawer();
@@ -114,11 +142,21 @@ class CHFriendsScreen extends Component {
 }
 
 CHFriendsScreen.propTypes = {
-  // prop: PropTypes.array,
+  friends: PropTypes.array,
+  friendships: PropTypes.array,
+  users: PropTypes.array,
+  setFriends: PropTypes.func,
 };
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({friends, auth}) => {
+  return {
+    friendships: friends.friendships,
+    users: auth.users,
+    friends: friends.friends,
+    user: auth.user,
+  };
+};
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {setUsers, setFriends, setFriendships};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CHFriendsScreen);

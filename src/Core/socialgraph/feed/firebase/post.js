@@ -58,3 +58,53 @@ export const subscribeToProfileFeedPosts = (userID, callback) => {
     );
   return profilePostsRef;
 };
+
+export const hydrateFeedForNewFriendship = async (destUserID, sourceUserID) => {
+  // we take all posts from sourceUserID and populate the feed of destUserID
+  const mainFeedDestRef = firestore()
+    .collection('social_feeds')
+    .doc(destUserID)
+    .collection('main_feed');
+
+  const unsubscribeToSourcePosts = postsRef
+    .where('authorID', '==', sourceUserID)
+    .onSnapshot(
+      (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const post = doc.data();
+          if (post.id) {
+            mainFeedDestRef.doc(post.id).set(post);
+          }
+        });
+        unsubscribeToSourcePosts();
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+};
+
+export const removeFeedForOldFriendship = async (destUserID, oldFriendID) => {
+  // We remove all posts authored by oldFriendID from destUserID's feed
+  const mainFeedDestRef = firestore()
+    .collection('social_feeds')
+    .doc(destUserID)
+    .collection('main_feed');
+
+  const unsubscribeToSourcePosts = postsRef
+    .where('authorID', '==', oldFriendID)
+    .onSnapshot(
+      (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          const post = doc.data();
+          if (post.id) {
+            mainFeedDestRef.doc(post.id).delete();
+          }
+        });
+        unsubscribeToSourcePosts();
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+};
