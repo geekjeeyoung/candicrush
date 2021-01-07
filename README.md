@@ -31,6 +31,8 @@
 
 # firebaseFriendship 만들기 (tracker.js 내부)
 
+# CHUserSearchModal 만들기!
+
 <br/>
 
 ## iOS Info.plist - permission list

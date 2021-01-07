@@ -129,6 +129,7 @@ class CHFriendsScreen extends Component {
     return (
       <CHFriendsListComponent
         searchBarRef={this.searchBarRef}
+        friendsData={this.props.friendships}
         searchBar={true}
         onSearchBarPress={this.onSearchBar}
         isSearchModalOpen={this.state.isSearchModalOpen}
@@ -136,6 +137,7 @@ class CHFriendsScreen extends Component {
         appStyles={StyleDict}
         onSearchBarCancel={this.onSearchBar}
         emptyStateConfig={emptyStateConfig}
+        isLoading={this.state.isLoading}
       />
     );
   }

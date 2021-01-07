@@ -95,9 +95,8 @@ const createAccountWithEmailAndPassword = (userDetails) => {
 };
 
 const handleSuccessfulLogin = (user, accountJustCreated) => {
-  // After a successful login, we fetch & store the device token for push notifications, location, online status, etc.
+  // After a successful login, we fetch & store the "Device Token" for push notifications, location, online status, etc.
   // we don't wait for fetching & updating the location or push token, for performance reasons (especially on Android)
-
   fetchAndStoreExtraInfoUponLogin(user, accountJustCreated);
   return new Promise((resolve) => {
     resolve({user: {...user}});
@@ -105,7 +104,9 @@ const handleSuccessfulLogin = (user, accountJustCreated) => {
 };
 
 const fetchAndStoreExtraInfoUponLogin = async (user, accountJustCreated) => {
-  // firebaseAuth.fetchAndStorePushTokenIfPossible(user);
+  firebaseAuth.fetchAndStorePushTokenIfPossible(user);
+
+  // getCurrentLocation() 추가하기 + {isOnline: true}
 };
 
 const getCurrentLocation = (geolocation) => {

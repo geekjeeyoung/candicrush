@@ -24,9 +24,9 @@ export default class FriendshipTracker {
   ) {
     this.reduxStore = reduxStore;
     this.userID = userID;
-    this.extendFollowers = extendFollowers; // if this is true, we extend friends to non-mutual follow statuses
-    this.persistFriendshipsCounts = persistFriendshipsCounts; // if this is true, we persist the inbound and outbound counts in the users table
-    this.enableFeedUpdates = enableFeedUpdates; // if this is true, we make extra hydrations & clean ups for stories & feed posts in social networks
+    this.extendFollowers = extendFollowers;
+    this.persistFriendshipsCounts = persistFriendshipsCounts;
+    this.enableFeedUpdates = enableFeedUpdates;
 
     this.reduxStore.subscribe(this.syncTrackerToStore); // registering a callback that Redux store will call when an action has been dispatched. As soon as the Redux state has been updated, the view will re-render automatically
   }

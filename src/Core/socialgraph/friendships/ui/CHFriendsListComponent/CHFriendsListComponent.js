@@ -1,11 +1,13 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import {useColorScheme} from 'react-native-appearance';
 import {CHUserSearchModal} from '../..';
 import {SearchBarAlternate} from '../../../..';
 import {Localized} from '../../../../localization/Localization';
 import {TNEmptyStateView} from '../../../../truly-native';
 import dynamicStyles from './styles';
+import PropTypes from 'prop-types';
+import TNActivityIndicator from '../../../../truly-native/TNActivityIndicator';
 
 function CHFriendsListComponent(props) {
   const {
@@ -17,11 +19,20 @@ function CHFriendsListComponent(props) {
     appStyles,
     onSearchBarCancel,
     emptyStateConfig,
+    isLoading,
+
+    friendsData,
+    containerStyle,
   } = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
+
+  const renderItem = ({item}) => {
+    <View>{item}</View>;
+  };
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       {searchBar && (
         <SearchBarAlternate
           onPress={onSearchBarPress}
@@ -29,12 +40,17 @@ function CHFriendsListComponent(props) {
           appStyles={appStyles}
         />
       )}
-      <View style={styles.emptyViewContainer}>
-        <TNEmptyStateView
-          emptyStateConfig={emptyStateConfig}
-          appStyles={appStyles}
-        />
-      </View>
+      {friendsData && friendsData.length > 0 && (
+        <FlatList data={friendsData} renderItem={renderItem} />
+      )}
+      {friendsData && friendsData.length <= 0 && (
+        <View style={styles.emptyViewContainer}>
+          <TNEmptyStateView
+            emptyStateConfig={emptyStateConfig}
+            appStyles={appStyles}
+          />
+        </View>
+      )}
       <CHUserSearchModal
         onSearchBarCancel={onSearchBarCancel}
         isModalOpen={isSearchModalOpen}
@@ -42,8 +58,13 @@ function CHFriendsListComponent(props) {
         searchBarRef={searchBarRef}
         appStyles={appStyles}
       />
+      {isLoading && <TNActivityIndicator />}
     </View>
   );
 }
+
+CHFriendsListComponent.propTypes = {
+  containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+};
 
 export default CHFriendsListComponent;

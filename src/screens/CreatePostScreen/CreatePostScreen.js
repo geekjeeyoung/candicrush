@@ -134,24 +134,24 @@ class CreatePostScreen extends Component {
         },
       },
       async () => {
-        if (
-          this.state.post &&
-          this.state.post.postMedia &&
-          this.state.post.postMedia.length === 0
-        ) {
-          await firebasePost.addPost(
-            this.state.post,
-            friendshipUtils.followerIDs(
-              this.props.friendships,
-              this.props.friends,
-              true,
-            ),
-            this.props.user,
-          );
-          this.props.navigation.goBack();
-        } else {
-          this.startPostUpload();
-        }
+        // if (
+        //   this.state.post &&
+        //   this.state.post.postMedia &&
+        //   this.state.post.postMedia.length === 0
+        // ) {
+        //   await firebasePost.addPost(
+        //     this.state.post,
+        //     friendshipUtils.followerIDs(
+        //       this.props.friendships,
+        //       this.props.friends,
+        //       true,
+        //     ),
+        //     this.props.user,
+        //   );
+        //   this.props.navigation.goBack();
+        // } else {
+        this.startPostUpload();
+        // }
       },
     );
   };

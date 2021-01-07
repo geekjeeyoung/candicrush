@@ -1,5 +1,8 @@
 import firestore from '@react-native-firebase/firestore';
+import {call} from 'react-native-reanimated';
 import {firebaseUser} from '../../../firebase';
+import {Localized} from '../../../localization/Localization';
+import {notificationManager} from '../../../notifications';
 import {firebasePost, firebaseStory} from '../../feed/firebase';
 
 const usersRef = firestore().collection('users');
@@ -21,7 +24,7 @@ export const addFriendRequest = (
   toUser,
   persistFriendshipsCounts,
   enableFeedUpdates,
-  extendFollowers,
+  extendFollowers, // 프로필 공개 및 비공개와 관련 / 비공개 프로필이라면 extendFollowers = false, 공개 프로필이라면 extendFollwers = true
   callback,
 ) => {
   const outBoundID = outBound.id;
@@ -51,6 +54,41 @@ export const addFriendRequest = (
           firebaseStory.hydrateStoriesForNewFriendship(outBoundID, toUserID);
         }
       }
-      //   BookMark
+      let notificationBody =
+        outBound.firstName +
+        ' ' +
+        outBound.lastName +
+        ' ' +
+        (extendFollowers
+          ? Localized('just followed you.')
+          : Localized('sent you a friend request.'));
+
+      notificationManager.sendPushNotification(
+        toUser,
+        outBound.firstName + ' ' + outBound.lastName, // title; can be changed
+        notificationBody,
+        extendFollowers ? 'social_follow' : 'friend_request',
+        {outBound},
+      );
+      callback({success: true});
+    })
+    .catch((error) => {
+      callback({error: error});
     });
+};
+
+export const cancelFriendRequest = (
+  currentUserID,
+  toUserID,
+  persistFriendshipsCounts,
+  enableFeedUpdates,
+  callback,
+) => {
+  if (currentUserID == toUserID) {
+    callback(null);
+    return;
+  }
+  const query = friendshipsRef
+    .where('user1', '==', currentUserID)
+    .where('user2', '==', toUserID);
 };

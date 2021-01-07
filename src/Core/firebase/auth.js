@@ -2,6 +2,7 @@ import auth from '@react-native-firebase/auth';
 import {ErrorCode} from '../onboarding/utils/ErrorCode';
 import firestore from '@react-native-firebase/firestore';
 import {Alert} from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 
 const usersRef = firestore().collection('users');
 
@@ -155,4 +156,17 @@ export const updateUser = async (userId, newUserData) => {
 
 export const logout = () => {
   auth().signOut();
+};
+
+export const fetchAndStorePushTokenIfPossible = async (user) => {
+  try {
+    const settings = await messaging().requestPermission();
+    if (settings) {
+      console.log('Authorization status: ', settings);
+      const token = await messaging().getToken();
+      updateUser(user.id, {pushToken: token});
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
