@@ -25,7 +25,8 @@ const onCollectionUpdate = (querySnapshot, callback) => {
     temp.id = doc.id;
     data.push(temp);
   });
-  return callback(data, usersRef);
+  // return callback(data, usersRef);
+  return callback(data);
 };
 
 export const subscribeToInboundFriendships = (userId, callback) => {
