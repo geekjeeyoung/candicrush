@@ -1,5 +1,4 @@
 import firestore from '@react-native-firebase/firestore';
-import {call} from 'react-native-reanimated';
 import {firebaseUser} from '../../../firebase';
 import {Localized} from '../../../localization/Localization';
 import {notificationManager} from '../../../notifications';
@@ -17,6 +16,28 @@ const updateFriendshipsCounts = async (userID) => {
   const outbound = await friendshipsRef.where('user1', '==', userID).get();
   const outboundCount = outbound.docs ? outbound.docs.length : 0;
   firebaseUser.updateUserData(userID, {outboundFriendsCount: outboundCount});
+};
+
+const onCollectionUpdate = (querySnapshot, callback) => {
+  const data = [];
+  querySnapshot.forEach((doc) => {
+    const temp = doc.data();
+    temp.id = doc.id;
+    data.push(temp);
+  });
+  return callback(data, usersRef);
+};
+
+export const subscribeToInboundFriendships = (userId, callback) => {
+  return friendshipsRef
+    .where('user2', '==', userId)
+    .onSnapshot((querySnapshot) => onCollectionUpdate(querySnapshot, callback));
+};
+
+export const subscribeToOutboundFriendships = (userId, callback) => {
+  return friendshipsRef
+    .where('user1', '==', userId)
+    .onSnapshot((querySnapshot) => onCollectionUpdate(querySnapshot, callback));
 };
 
 export const addFriendRequest = (
@@ -91,4 +112,91 @@ export const cancelFriendRequest = (
   const query = friendshipsRef
     .where('user1', '==', currentUserID)
     .where('user2', '==', toUserID);
+  const db = firestore();
+  let batch = db.batch();
+  const unsubscribe = query.onSnapshot((querySnapshot) => {
+    if (querySnapshot) {
+      querySnapshot.forEach((doc) => {
+        let ref = friendshipsRef.doc(doc.id);
+        batch.delete(ref);
+      });
+      // commit the batch
+      if (batch) {
+        batch
+          .commit()
+          .then(function () {
+            unsubscribe();
+            if (persistFriendshipsCounts) {
+              updateFriendshipsCounts(currentUserID);
+              updateFriendshipsCounts(toUserID);
+            }
+
+            if (enableFeedUpdates) {
+              // currentUser is not following toUser anymore, so we remove feed posts and storie of toUser
+              firebasePost.removeFeedForOldFriendship(currentUserID, toUserID);
+              firebaseStory.removeStoriesForOldFriendship(
+                currentUserID,
+                toUserID,
+              );
+            }
+            callback({success: true});
+          })
+          .catch((error) => {
+            console.warn(error);
+          });
+        batch = null;
+      }
+    } else {
+      callback({success: true});
+    }
+  });
+};
+
+export const unfriend = async (
+  currentUserID,
+  toUserID,
+  persistFriendshipsCounts,
+  enableFeedUpdates,
+  callback,
+) => {
+  if (currentUserID == toUserID) {
+    callback(null);
+    return;
+  }
+  if (enableFeedUpdates) {
+    cancelFriendRequest(
+      currentUserID,
+      toUserID,
+      persistFriendshipsCounts,
+      enableFeedUpdates,
+      (response) => {
+        callback(response);
+      },
+    );
+  } else {
+    cancelFriendRequest(
+      currentUserID,
+      toUserID,
+      persistFriendshipsCounts,
+      enableFeedUpdates,
+      (_response) => {
+        cancelFriendRequest(
+          toUserID,
+          currentUserID,
+          persistFriendshipsCounts,
+          enableFeedUpdates,
+          (response) => {
+            callback(response);
+          },
+        );
+      },
+    );
+  }
+};
+
+export const updateFeedsForNewFriends = (userID1, userID2) => {
+  firebasePost.hydrateFeedForNewFriendship(userID1, userID2);
+  firebasePost.hydrateFeedForNewFriendship(userID2, userID1);
+  firebaseStory.hydrateStoriesForNewFriendship(userID1, userID2);
+  firebaseStory.hydrateStoriesForNewFriendship(userID2, userID1);
 };
