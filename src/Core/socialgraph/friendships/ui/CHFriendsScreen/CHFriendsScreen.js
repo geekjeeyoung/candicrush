@@ -90,14 +90,24 @@ class CHFriendsScreen extends Component {
     });
   }
 
-  // {Bookmark : componentWillUnmount() 부터 만들기}
+  componentWillUnmount() {
+    this.friendshipTracker.unsubscribe();
+  }
+
+  updateFilteredFriendships = (keyword) => {
+    this.setState({keyword: keyword});
+    const filteredFriendships = filteredNonFriendshipsFromUsers(
+      keyword,
+      this.props.users,
+      this.props.friendships,
+    ).filter(
+      (element) => element.user && element.user.id !== this.props.user.id,
+    );
+    this.setState({filteredFriendships});
+  };
 
   openDrawer = () => {
     this.props.navigation.openDrawer();
-  };
-
-  onEmptyStatePress = () => {
-    this.onSearchBar();
   };
 
   onSearchBar = () => {
@@ -111,18 +121,18 @@ class CHFriendsScreen extends Component {
     }, 1000);
   };
 
-  onSearchClear = () => {
-    this.updateFilteredFriendships('');
+  onSearchModalClose = () => {
+    this.setState({
+      isSearchModalOpen: false,
+    });
   };
 
   onSearchTextChange = (text) => {
     this.updateFilteredFriendships(text);
   };
 
-  onSearchModalClose = () => {
-    this.setState({
-      isSearchModalOpen: false,
-    });
+  onSearchClear = () => {
+    this.updateFilteredFriendships('');
   };
 
   onFriendAction = (item, index) => {
@@ -148,52 +158,11 @@ class CHFriendsScreen extends Component {
     }
   };
 
-  /* 
-    onUnfriend = (item, index) => {
-    this.setState({ isLoading: true });
-    this.friendshipTracker.unfriend(this.props.user, item.user, (respone) => {
-      this.setState({ isLoading: false });
-    });
-  };
-
-  onAddFriend = (item, index) => {
-    const oldFilteredFriendships = this.state.filteredFriendships;
-    this.removeFriendshipAt(index);
-    this.friendshipTracker.addFriendRequest(
-      this.props.user,
-      item.user,
-      (response) => {
-        if (response && response.error) {
-          this.setState({
-            filteredFriendships: oldFilteredFriendships,
-          });
-        }
-      },
-    );
-  };
-
-  onCancel = (item, index) => {
-    this.setState({ isLoading: true });
-    this.friendshipTracker.cancelFriendRequest(
-      this.props.user,
-      item.user,
-      (response) => {
-        this.setState({ isLoading: false });
-      },
-    );
-  };
-
-  onAccept = (item, index) => {
-    this.setState({ isLoading: true });
-    this.friendshipTracker.addFriendRequest(
-      this.props.user,
-      item.user,
-      (response) => {
-        this.setState({ isLoading: false });
-      },
-    );
-  };
-  */
+  // onUnfriend
+  // onAddFriend
+  // onCancel
+  // onAccept
+  // removeFriendshipAt
 
   onFriendItemPress = (friendship) => {
     if (friendship.user && friendship.user.id == this.props.user.id) {
@@ -208,16 +177,8 @@ class CHFriendsScreen extends Component {
     });
   };
 
-  updateFilteredFriendships = (keyword) => {
-    this.setState({keyword: keyword});
-    const filteredFriendships = filteredNonFriendshipsFromUsers(
-      keyword,
-      this.props.users,
-      this.props.friendships,
-    ).filter(
-      (element) => element.user && element.user.id !== this.props.user.id,
-    );
-    this.setState({filteredFriendships});
+  onEmptyStatePress = () => {
+    this.onSearchBar();
   };
 
   render() {
