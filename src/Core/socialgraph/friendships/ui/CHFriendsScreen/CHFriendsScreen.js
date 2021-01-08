@@ -2,13 +2,14 @@ import React, {Component, createRef} from 'react';
 import {Platform, Text, View} from 'react-native';
 import {connect, ReactReduxContext} from 'react-redux';
 import {CHFriendsListComponent} from '../..';
-import StyleDict from '../../../../../AppStyles';
 import {Localized} from '../../../../localization/Localization';
 import {TNTouchableIcon} from '../../../../truly-native';
 import {setFriendships, setFriends} from '../../redux';
 import {setUsers} from '../../../../onboarding/redux/auth';
 import PropTypes from 'prop-types';
 import FriendshipTracker from '../../firebase/tracker';
+import {filteredNonFriendshipsFromUsers} from '../../firebase/utils';
+import {FriendshipConstants} from '../../constants';
 
 class CHFriendsScreen extends Component {
   static contextType = ReactReduxContext;
@@ -110,10 +111,113 @@ class CHFriendsScreen extends Component {
     }, 1000);
   };
 
+  onSearchClear = () => {
+    this.updateFilteredFriendships('');
+  };
+
+  onSearchTextChange = (text) => {
+    this.updateFilteredFriendships(text);
+  };
+
   onSearchModalClose = () => {
     this.setState({
       isSearchModalOpen: false,
     });
+  };
+
+  onFriendAction = (item, index) => {
+    if (
+      this.state.isLoading ||
+      (item.user && item.user.id == this.props.user.id)
+    ) {
+      return;
+    }
+    switch (item.type) {
+      case FriendshipConstants.FriendshipType.none:
+        this.onAddFriend(item, index);
+        break;
+      case FriendshipConstants.FriendshipType.reciprocal:
+        this.onUnFriend(item, index);
+        break;
+      case FriendshipConstants.FriendshipType.inbound:
+        this.onAccept(item, index);
+        break;
+      case FriendshipConstants.FriendshipType.outbound:
+        this.onCancel(item, index);
+        break;
+    }
+  };
+
+  /* 
+    onUnfriend = (item, index) => {
+    this.setState({ isLoading: true });
+    this.friendshipTracker.unfriend(this.props.user, item.user, (respone) => {
+      this.setState({ isLoading: false });
+    });
+  };
+
+  onAddFriend = (item, index) => {
+    const oldFilteredFriendships = this.state.filteredFriendships;
+    this.removeFriendshipAt(index);
+    this.friendshipTracker.addFriendRequest(
+      this.props.user,
+      item.user,
+      (response) => {
+        if (response && response.error) {
+          this.setState({
+            filteredFriendships: oldFilteredFriendships,
+          });
+        }
+      },
+    );
+  };
+
+  onCancel = (item, index) => {
+    this.setState({ isLoading: true });
+    this.friendshipTracker.cancelFriendRequest(
+      this.props.user,
+      item.user,
+      (response) => {
+        this.setState({ isLoading: false });
+      },
+    );
+  };
+
+  onAccept = (item, index) => {
+    this.setState({ isLoading: true });
+    this.friendshipTracker.addFriendRequest(
+      this.props.user,
+      item.user,
+      (response) => {
+        this.setState({ isLoading: false });
+      },
+    );
+  };
+  */
+
+  onFriendItemPress = (friendship) => {
+    if (friendship.user && friendship.user.id == this.props.user.id) {
+      return;
+    }
+    this.setState({
+      isSearchModalOpen: false,
+    });
+    this.props.navigation.push('FriendsProfile', {
+      user: friendship.user,
+      lastScreenTitle: 'Friends',
+    });
+  };
+
+  updateFilteredFriendships = (keyword) => {
+    this.setState({keyword: keyword});
+    const filteredFriendships = filteredNonFriendshipsFromUsers(
+      keyword,
+      this.props.users,
+      this.props.friendships,
+    ).filter(
+      (element) => element.user && element.user.id !== this.props.user.id,
+    );
+    this.setState({filteredFriendships});
   };
 
   render() {
@@ -132,12 +236,18 @@ class CHFriendsScreen extends Component {
         friendsData={this.props.friendships}
         searchBar={true}
         onSearchBarPress={this.onSearchBar}
+        searchData={this.state.filteredFriendships}
+        onSearchTextChange={this.onSearchTextChange}
+        onSearchClear={this.onSearchClear}
         isSearchModalOpen={this.state.isSearchModalOpen}
         onSearchModalClose={this.onSearchModalClose}
-        appStyles={StyleDict}
         onSearchBarCancel={this.onSearchBar}
-        emptyStateConfig={emptyStateConfig}
+        onFriendItemPress={this.onFriendItemPress}
+        onFriendAction={this.onFriendAction}
+        appStyles={this.appStyles}
         isLoading={this.state.isLoading}
+        followEnabled={this.followEnabled}
+        emptyStateConfig={emptyStateConfig}
       />
     );
   }

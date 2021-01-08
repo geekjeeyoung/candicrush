@@ -24,7 +24,7 @@ export const addFriendRequest = (
   toUser,
   persistFriendshipsCounts,
   enableFeedUpdates,
-  extendFollowers, // 프로필 공개 및 비공개와 관련 / 비공개 프로필이라면 extendFollowers = false, 공개 프로필이라면 extendFollwers = true
+  extendFollowers,
   callback,
 ) => {
   const outBoundID = outBound.id;
@@ -65,7 +65,7 @@ export const addFriendRequest = (
 
       notificationManager.sendPushNotification(
         toUser,
-        outBound.firstName + ' ' + outBound.lastName, // title; can be changed
+        outBound.firstName + ' ' + outBound.lastName, // title; SHOULD be changed :(
         notificationBody,
         extendFollowers ? 'social_follow' : 'friend_request',
         {outBound},

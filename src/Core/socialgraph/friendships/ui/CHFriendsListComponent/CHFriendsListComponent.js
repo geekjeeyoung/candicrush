@@ -11,8 +11,11 @@ import TNActivityIndicator from '../../../../truly-native/TNActivityIndicator';
 
 function CHFriendsListComponent(props) {
   const {
-    searchBarRef,
     searchBar,
+    containerStyle,
+    onFriendAction,
+    searchBarRef,
+    friendsData,
     onSearchBarPress,
     isSearchModalOpen,
     onSearchModalClose,
@@ -20,9 +23,13 @@ function CHFriendsListComponent(props) {
     onSearchBarCancel,
     emptyStateConfig,
     isLoading,
+    searchData,
+    onSearchTextChange,
 
-    friendsData,
-    containerStyle,
+    onFriendItemPress,
+    followEnabled,
+
+    onSearchClear,
   } = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
@@ -53,10 +60,16 @@ function CHFriendsListComponent(props) {
       )}
       <CHUserSearchModal
         onSearchBarCancel={onSearchBarCancel}
+        onSearchClear={onSearchClear}
+        data={searchData}
+        onSearchTextChange={onSearchTextChange}
         isModalOpen={isSearchModalOpen}
         onClose={onSearchModalClose}
         searchBarRef={searchBarRef}
+        onAddFriend={onFriendAction}
+        onFriendItemPress={onFriendItemPress}
         appStyles={appStyles}
+        followEnabled={followEnabled}
       />
       {isLoading && <TNActivityIndicator />}
     </View>
