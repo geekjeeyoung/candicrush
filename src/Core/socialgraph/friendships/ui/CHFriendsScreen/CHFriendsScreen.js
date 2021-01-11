@@ -158,11 +158,60 @@ class CHFriendsScreen extends Component {
     }
   };
 
-  // onUnfriend
-  // onAddFriend
-  // onCancel
-  // onAccept
-  // removeFriendshipAt
+  onUnfriend = (item, index) => {
+    this.setState({isLoading: true});
+    this.friendshipTracker.unfriend(this.props.user, item.user, (respone) => {
+      this.setState({isLoading: false});
+    });
+  };
+
+  onAddFriend = (item, index) => {
+    this.setState({isLoading: true});
+    const oldFilteredFriendships = this.state.filteredFriendships;
+    this.removeFriendshipAt(index);
+    this.friendshipTracker.addFriendRequest(
+      this.props.user,
+      item.user,
+      (response) => {
+        if (response && response.error) {
+          this.setState({
+            filteredFriendships: oldFilteredFriendships,
+          });
+        }
+        this.setState({isLoading: false});
+      },
+    );
+  };
+
+  onCancel = (item, index) => {
+    this.setState({isLoading: true});
+    this.friendshipTracker.cancelFriendRequest(
+      this.props.user,
+      item.user,
+      (response) => {
+        this.setState({isLoading: false});
+      },
+    );
+  };
+
+  onAccept = (item, index) => {
+    this.setState({isLoading: true});
+    this.friendshipTracker.addFriendRequest(
+      this.props.user,
+      item.user,
+      (response) => {
+        this.setState({isLoading: false});
+      },
+    );
+  };
+
+  removeFriendshipAt = async (index) => {
+    const newFilteredFriendships = [...this.state.filteredFriendships];
+    await newFilteredFriendships.splice(index, 1);
+    this.setState({
+      filteredFriendships: [...newFilteredFriendships],
+    });
+  };
 
   onFriendItemPress = (friendship) => {
     if (friendship.user && friendship.user.id == this.props.user.id) {
