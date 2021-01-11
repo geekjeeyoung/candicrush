@@ -77,7 +77,18 @@ function CHFriendsListComponent(props) {
 }
 
 CHFriendsListComponent.propTypes = {
+  onFriendItemPress: PropTypes.func,
+  searchBar: PropTypes.bool,
   containerStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  friendsData: PropTypes.array,
+  onSearchBarPress: PropTypes.func,
+  onSearchBarCancel: PropTypes.func,
+  searchData: PropTypes.array,
+  onSearchTextChange: PropTypes.func,
+  isSearchModalOpen: PropTypes.bool,
+  onSearchModalClose: PropTypes.func,
+  searchBarRef: PropTypes.object, // type of createRef() is object;
+  onSearchClear: PropTypes.func,
 };
 
 export default CHFriendsListComponent;
