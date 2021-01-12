@@ -33,6 +33,8 @@
 
 # CHUserSearchModal 만들기!
 
+## CHFriendItem 만들기
+
 <br/>
 
 ## iOS Info.plist - permission list

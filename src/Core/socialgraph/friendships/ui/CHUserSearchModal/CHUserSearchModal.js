@@ -5,17 +5,26 @@ import dynamicStyles from './styles';
 
 import Modal from 'react-native-modalbox';
 import {SearchBar} from '../../../..';
+import CHFriendItem from '../CHFriendItem/CHFriendItem';
 
 function CHUserSearchModal(props) {
   const {
     onSearchBarCancel,
+    onSearchClear,
+    data,
+    onSearchTextChange,
     isModalOpen,
     onClose,
     searchBarRef,
+    onAddFriend,
+    onFriendItemPress,
     appStyles,
+    followEnabled,
   } = props;
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
+
+  const renderItem = ({item, index}) => <CHFriendItem />;
 
   return (
     <Modal
@@ -32,11 +41,19 @@ function CHUserSearchModal(props) {
       <View style={styles.container}>
         <View style={styles.searchBarContainer}>
           <SearchBar
+            onChangeText={onSearchTextChange}
             onSearchBarCancel={onSearchBarCancel}
             searchRef={searchBarRef}
             appStyles={appStyles}
+            onSearchClear={onSearchClear}
           />
         </View>
+        <FlatList
+          keyboardShouldPersistTaps="always"
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.user.id}
+        />
       </View>
     </Modal>
   );
