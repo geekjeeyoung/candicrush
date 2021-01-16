@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {useColorScheme} from 'react-native-appearance';
-import {CHUserSearchModal} from '../..';
+import {CHFriendItem, CHUserSearchModal} from '../..';
 import {SearchBarAlternate} from '../../../..';
 import {Localized} from '../../../../localization/Localization';
 import {TNEmptyStateView} from '../../../../truly-native';
@@ -34,9 +34,15 @@ function CHFriendsListComponent(props) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
-  const renderItem = ({item}) => {
-    <View>{item}</View>;
-  };
+  const renderItem = ({item, index}) => (
+    <CHFriendItem
+      onFriendItemPress={onFriendItemPress}
+      item={item}
+      onFriendAction={onFriendAction}
+      appStyles={appStyles}
+      followEnabled={followEnabled}
+    />
+  );
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -48,7 +54,12 @@ function CHFriendsListComponent(props) {
         />
       )}
       {friendsData && friendsData.length > 0 && (
-        <FlatList data={friendsData} renderItem={renderItem} />
+        <FlatList
+          data={friendsData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.user.id}
+          removeClippedSubviews={true}
+        />
       )}
       {friendsData && friendsData.length <= 0 && (
         <View style={styles.emptyViewContainer}>

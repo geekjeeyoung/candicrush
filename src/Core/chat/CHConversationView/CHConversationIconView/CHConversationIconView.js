@@ -8,3 +8,12 @@ export default function CHConversationIconView() {
     </View>
   );
 }
+
+{
+  /* <CHConversationIconView
+          style={styles.photo}
+          imageStyle={styles.photo}
+          participants={[user]}
+          appStyles={appStyles}
+        /> */
+}

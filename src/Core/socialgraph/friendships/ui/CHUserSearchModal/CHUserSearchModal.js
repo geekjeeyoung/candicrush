@@ -5,7 +5,7 @@ import dynamicStyles from './styles';
 
 import Modal from 'react-native-modalbox';
 import {SearchBar} from '../../../..';
-import CHFriendItem from '../CHFriendItem/CHFriendItem';
+import {CHFriendItem} from '../..';
 
 function CHUserSearchModal(props) {
   const {
@@ -24,7 +24,15 @@ function CHUserSearchModal(props) {
   const colorScheme = useColorScheme();
   const styles = dynamicStyles(appStyles, colorScheme);
 
-  const renderItem = ({item, index}) => <CHFriendItem />;
+  const renderItem = ({item, index}) => (
+    <CHFriendItem
+      item={item}
+      onFriendAction={() => onAddFriend(item, index)}
+      onFriendItemPress={onFriendItemPress}
+      appStyles={appStyles}
+      followEnabled={followEnabled}
+    />
+  );
 
   return (
     <Modal
