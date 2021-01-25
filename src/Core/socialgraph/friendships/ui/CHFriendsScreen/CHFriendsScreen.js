@@ -147,7 +147,7 @@ class CHFriendsScreen extends Component {
         this.onAddFriend(item, index);
         break;
       case FriendshipConstants.FriendshipType.reciprocal:
-        this.onUnFriend(item, index);
+        this.onUnfriend(item, index);
         break;
       case FriendshipConstants.FriendshipType.inbound:
         this.onAccept(item, index);

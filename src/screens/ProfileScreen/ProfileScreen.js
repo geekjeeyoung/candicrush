@@ -10,6 +10,7 @@ import {FriendshipConstants} from '../../Core/socialgraph/friendships';
 import {firebasePost} from '../../Core/socialgraph/feed/firebase';
 import {firebaseStorage, firebaseUser} from '../../Core/firebase';
 import CandiCrushConfig from '../../CandiCrushConfig';
+import * as firebaseFriendship from '../../Core/socialgraph/friendships/firebase/friendship';
 import {Alert} from 'react-native';
 
 const defaultAvatar =
@@ -315,7 +316,20 @@ class ProfileScreen extends Component {
 
   // when the profile is other's profile & we aren't friends yet
   onAddFriend = () => {
-    Alert.alert('onAddFriend');
+    this.setState({shouldAddFriend: false});
+    firebaseFriendship.addFriendRequest(
+      this.props.user,
+      this.otherUser,
+      true,
+      true,
+      true,
+      ({success, error}) => {
+        if (error) {
+          Alert.alert(error);
+          this.setState({shouldAddFriend: true});
+        }
+      },
+    );
   };
 
   //when the profile is my friend's profile
