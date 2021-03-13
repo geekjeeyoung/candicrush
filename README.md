@@ -1,4 +1,4 @@
-# candicrush - photo sharing app
+# candicrush - video & photo sharing app
 
 <img width="869" alt="Screen Shot 2021-03-13 at 22 31 22" src="https://user-images.githubusercontent.com/64334381/111032484-cce87000-844f-11eb-845f-a5b4d5b4a995.png">
 
